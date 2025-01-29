@@ -1,0 +1,387 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Management</title>
+    <link rel="stylesheet" href="{% static 'css/Volunteer.css' %}">
+    <link rel="stylesheet" href="{% static 'css/global.css' %}">
+    <script src="{% static 'javascript/delete.js' %}"></script>
+    <script src="{% static 'javascript/global.js' %}"></script>
+</head>
+
+<body>
+    <nav>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <!-- Left Side - Buttons -->
+            <div class="center-buttons" style="display: flex; gap: 10px;padding-left: 425px;">
+                <button onclick="showSection('admin-dashboard')">Manage Products</button>
+                <button onclick="showSection('supplier-portal')">Manage Volunteers</button>
+            </div>
+        
+            <!-- Center - Notification Button -->
+            <div style="padding-left: 430px;gap: 10px;">
+                <a href="{% url 'notification' %}?type=camp" style="background-color: #007bff; 
+                          color: white; 
+                          padding: 6px 9px; 
+                          border-radius: 5px; 
+                          font-size: 16px; 
+                          text-decoration: none; 
+                          display: inline-block; 
+                          text-align: center;">
+                    💬
+                </a>
+            </div>
+        
+            <!-- Right Side - Logout Button -->
+            <div>
+                <a href="{% url 'logout' %}" class="logout-button" style="background-color: #dc3545; 
+                          color: white; 
+                          padding: 6px 9px; 
+                          border-radius: 5px; 
+                          font-size: 16px; 
+                          text-decoration: none; 
+                          display: inline-block; 
+                          text-align: center;">
+                    Logout
+                </a>
+            </div>
+        </div>
+    </nav>
+    <section id="admin-dashboard" style="display: block;">
+
+        {% include 'message.html' %}
+        <h1>Item Management System</h1>
+        <div class="container">
+            <div class="form-container">
+                <h2>Add Item</h2>
+                <!-- <form id="add-item-form"> -->
+
+                <label>Item Name:</label>
+                <input type="text" id="item-name" name="item-name" required>
+
+                <div class="flex-container">
+                    <div>
+                        <label for="item-category">Category:</label>
+                        <select id="item-category" name="item-category" required>
+                            {% for category in categories %}
+                            <option value="{{ category.id }}">{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label for="item-unit">Unit:</label>
+                        <input type="text" id="item-unit" name="item-unit" required>
+                    </div>
+                </div>
+
+                <label>Available Quantity:</label>
+                <input type="number" id="item-quantity" name="item-quantity" required min="1">
+
+                <label for="item-limit">Max Quantity:</label>
+                <input type="number" id="item-limit" name="item-limit" required min="1">
+                <!-- <input type="text" id="category" name="category"> -->
+
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+                <button name="new_submit" id="AddItem" onclick="AddItem()">Add Item</button>
+
+
+            </div>
+
+
+
+            <div class="item-list-container" id="item-list">
+                <h2>Item List</h2>
+                <div>
+                    <label for="item-category">Category:</label>
+                    <select id="fillter-category" name="fillter-category" required onchange="fetchProductUpdates()">
+                        {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <table id="item-list">
+                    <thead>
+                        <tr>
+                            <th>.No</th>
+                            <th>Name</th>
+                            <th>Available Quantity (Unit)</th>
+                            <th>Max Quantity (Unit)</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="item-list1">
+                        <!-- all items insert this p-->
+                    </tbody>
+                </table>
+            </div>
+    </section>
+    <section id="supplier-portal" style="display: none;">
+        <h2>volunteers</h2>
+
+        <table class="styled-table" id="table_body5">
+            <thead>
+                <tr>
+                    <th>.No</th>
+                    <th>Volunteers Name</th>
+                    <th>Volunteers Email</th>
+                    <th>Volunteers phone</th>
+                </tr>
+            </thead>
+            <tbody id="table_body6">
+
+            </tbody>
+        </table>
+        </div>
+
+
+
+
+    </section>
+    <script>
+        // Function to switch between sections
+        function showSection(sectionId) {
+
+            document.getElementById('admin-dashboard').style.display = 'none';
+            document.getElementById('supplier-portal').style.display = 'none';
+
+            document.getElementById(sectionId).style.display = 'block';
+        }
+
+
+    </script>
+
+
+    <script>
+        // Call fetchProductUpdates every 5 seconds
+        // setInterval(fetchProductUpdates, 1000);
+        function sendRequest(data, successCallback, errorCallback) {
+            const url = `/Volunteer/`;
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken,
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify(data)
+            };
+
+            fetch(url, options)
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Network response was not ok.');
+                    }
+                })
+                .then(data => {
+                    successCallback(data); // Call the success callback with the response data
+                })
+                .catch(error => {
+                    errorCallback(error); // Call the error callback if there is an issue
+                });
+        }
+
+        window.onload = function () {
+            fetchProductUpdates();
+            displayCampAndVolunteers();
+        };
+
+
+
+        function fetchProductUpdates() {
+            const selectedCategoryId = document.getElementById('fillter-category').value; // Get selected category ID
+            const data = {
+                'category_id': selectedCategoryId,
+                'mode': '3' // Example additional parameter
+            };
+
+            sendRequest(
+                data,           // Data to send
+                function (data) { // Success callback
+                    const tableBody = document.querySelector('#item-list tbody');
+                    tableBody.innerHTML = ''; // Clear the table
+
+                    data.product1.forEach(product => {
+                        const newRow = document.createElement('tr');
+                        newRow.id = `productRow_${product.id}`;
+                        newRow.innerHTML = `
+                    <td></td>
+                    <td id="product_Name_${product.id}">${product.product_Name}</td>
+                    <td>
+                        <span class="quantity-display" id="quantityDisplay_${product.id}">${product.product_Quantity}</span>
+                        <input type="number" id="quantityInput_${product.id}" name="item-quantity1" class="quantity-input" style="display:none;" value="${product.product_Quantity}">${product.product_unit}
+                    </td>
+                    <td>
+                        <span class="limit-display" id="limitDisplay_${product.id}">${product.product_Limit}</span>
+                        <input type="number" id="limitInput_${product.id}" name="item-limit1" class="limit-input" style="display:none;" value="${product.product_Limit}">${product.product_unit}
+                    </td>
+                    <td>
+                        <button id="editButton_${product.id}" onclick="toggleEditMode('${product.id}')">Edit</button>
+                        <button id="submitButton_${product.id}" style="display:none;" onclick="submitEdit('${product.id}')">Submit</button>
+                        <button id="deleteButton_${product.id}" onclick="deleteItem('${product.id}')">Delete</button>
+                    </td>
+                `;
+                        tableBody.appendChild(newRow);
+                        updateRowNumbers();
+
+                    });
+                },
+                function (error) { // Error callback
+                    console.error('Error fetching product updates:', error);
+                }
+            );
+        }
+        function updateRowNumbers() {
+            const rows = document.querySelectorAll('#item-list1 tr');
+            rows.forEach((row, index) => {
+                // Update the .No cell in each row (1-based index)
+                row.children[0].textContent = index + 1;
+            });
+        }
+
+        function AddItem() {
+            const itemName = document.getElementById('item-name').value;
+            const itemCategory = document.getElementById('item-category').value;
+            const itemUnit = document.getElementById('item-unit').value;
+            const itemQuantity = document.getElementById('item-quantity').value;
+            const itemLimit = document.getElementById('item-limit').value;
+
+            const data = {
+                'item-name': itemName,
+                'item-category': itemCategory,
+                'item-unit': itemUnit,
+                'item-quantity': itemQuantity,
+                'item-limit': itemLimit,
+                'mode': "2"
+            };
+
+            sendRequest(
+                data,           // Data to send
+                function (data) { // Success callback
+                    showAlert("Item added successfully", 'alert-success');
+                    fetchProductUpdates(); // Refresh product list
+                },
+                function (error) { // Error callback
+                    showAlert("Item not added", 'alert-error');
+                    console.error('Error adding item:', error);
+                }
+            );
+        }
+
+
+
+
+        function submitEdit(productId) {
+            const quantityInput = document.getElementById('quantityInput_' + productId).value;
+            const limitInput = document.getElementById('limitInput_' + productId).value;
+
+            const data = {
+                'item-quantity1': quantityInput,
+                'item-limit1': limitInput,
+                'product_id': productId,
+                'mode': "1"
+            };
+
+            sendRequest(
+                data,           // Data to send
+                function (data) { // Success callback
+                    showAlert("Item updated successfully", 'alert-success');
+                    document.getElementById('quantityDisplay_' + productId).textContent = data.new_quantity;
+                    document.getElementById('limitDisplay_' + productId).textContent = data.new_limit;
+                    toggleEditMode(productId); // Toggle edit mode off
+                },
+                function (error) { // Error callback
+                    showAlert("Item not updated", 'alert-error');
+                    console.error('Error updating item:', error);
+                }
+            );
+        }
+
+
+
+
+
+
+        function toggleEditMode(rowId) {
+            const quantityDisplay = document.getElementById('quantityDisplay_' + rowId);
+            const quantityInput = document.getElementById('quantityInput_' + rowId);
+            const limitDisplay = document.getElementById('limitDisplay_' + rowId);
+            const limitInput = document.getElementById('limitInput_' + rowId);
+
+            const editButton = document.getElementById('editButton_' + rowId);
+            const submitButton = document.getElementById('submitButton_' + rowId);
+
+            if (quantityDisplay.style.display === 'none') {
+                quantityDisplay.style.display = 'inline';
+                quantityInput.style.display = 'none';
+                limitDisplay.style.display = 'inline';
+                limitInput.style.display = 'none';
+
+                editButton.style.display = 'inline';
+                submitButton.style.display = 'none';
+            } else {
+                quantityDisplay.style.display = 'none';
+                quantityInput.style.display = 'inline';
+                limitDisplay.style.display = 'none';
+                limitInput.style.display = 'inline';
+
+                editButton.style.display = 'none';
+                submitButton.style.display = 'inline';
+            }
+        }
+
+
+        function displayCampAndVolunteers() {
+            const data = {
+                'mode': '5',
+            };
+            debugger
+            sendRequest(
+                data,           // Data to send
+                function (data) { // Success callback
+
+                    const tableBody = document.querySelector('#table_body5 tbody');
+
+                    tableBody.innerHTML = ''; // Clear the table
+
+                    data.Volunteers2.forEach((volunteers_data1, index) => {
+                        const newRow = document.createElement('tr');
+                        newRow.id = `volunteersRow3_${volunteers_data1.id}`;
+                        newRow.innerHTML = `
+                                 <td>${index + 1}</td> <!-- Auto-increment index -->
+                                 <td>
+                                     <span class="name-display" id="volunteers_Name_${volunteers_data1.id}">${volunteers_data1.name}</span>
+                                     
+                                 </td>
+                                 <td>
+                                     <span class="email-display" id="volunteers_Email_${volunteers_data1.id}">${volunteers_data1.email}</span>
+                                    
+                                 </td>
+                                 <td>
+                                     <span class="phone-display" id="volunteers_Phone_${volunteers_data1.id}">${volunteers_data1.phone}</span>
+                                     
+                                 </td>
+                                       `;
+                        tableBody.appendChild(newRow);
+
+                    });
+                },
+                function (error) { // Error callback
+                    console.error('Error fetching product updates:', error);
+                }
+            );
+        }
+
+
+    </script>
+</body>
+
+</html>

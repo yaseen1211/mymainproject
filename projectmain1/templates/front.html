@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Load Bootstrap CSS first -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Load your custom CSS after Bootstrap for higher priority -->
+    <link rel="stylesheet" href="{% static 'css/front.css' %}">
+
+    <title>FRMC</title>
+</head>
+
+<body>
+    <!-- First Page -->
+    <div class="first-page">
+        <!-- Header Section -->
+        <div class="header">
+            <!-- Zone Dropdown -->
+            <div class="col-3 col-md-4 mb-3 mb-md-0">
+                <form method="POST" action="{% url 'Users' %}" id="zone-form">
+                    {% csrf_token %}
+                    <select class="menu-dropdown form-control" name="zone" onchange="this.form.submit()">
+                        <option disabled selected hidden>Select Zone</option>
+                        {% for zone in Zones %}
+                        <option value="{{ zone.id }}">{{ zone.name }}</option>
+                        {% endfor %}
+                    </select>
+                </form>
+            </div>
+
+            <!-- Message Button -->
+
+            <!-- Title -->
+            <div class="div1">
+                <div class="col-3 mb-3 mb-md-0">
+                    <h1 class="display-4">FRMC</h1>
+                </div>
+            </div>
+
+            <!-- Login Button -->
+            <div class="col-3 col-md-auto">
+                <a href="{% url 'login' %}">
+                    <button class="login-button btn btn-secondary">Login</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional: Include Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

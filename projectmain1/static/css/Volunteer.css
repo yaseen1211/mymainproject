@@ -1,0 +1,277 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+h1 {
+    text-align: center;
+    color: #333;
+}
+.container {
+    width: 80%;
+    margin: auto;
+}
+.form-container, .item-list-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+.form-container input, .form-container select, .form-container button {
+    margin: 10px 0;
+    padding: 10px;
+    width: calc(100% - 22px);
+    border: 1px solid #ddd;
+    border-radius: 15px;
+}
+.form-container button {
+    background-color: #0087fc;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+.form-container button:hover {
+    background-color: #085598;
+}
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+.flex-container > div {
+    flex: 1; /* Allow the divs to grow equally */
+}
+.item-list-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.item-list-container th, .item-list-container td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+.item-list-container th {
+    background-color: #f8f9fa;
+}
+.edit-btn, .remove-btn {
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+.remove-btn {
+    background-color: #dc3545;
+    color: #fff;
+}
+.remove-btn:hover {
+    background-color: #c82333;
+}
+.edit-btn {
+    background-color: #007bff; 
+    color: #fff;
+}
+.edit-btn:hover {
+    background-color: #0056b3; 
+}
+.hidden {
+    display: none;
+}
+
+
+
+
+
+/* Ensure the container is responsive */
+.item-list-container {
+    overflow-x: auto; /* Allow horizontal scrolling */
+}
+
+/* Style the table */
+#item-list {
+    width: 100%; /* Make the table take the full width of the container */
+    border-collapse: collapse; /* Merge table borders */
+}
+
+#item-list th, 
+#item-list td {
+    padding: 12px; /* Add padding for readability */
+    text-align: left; /* Align text to the left */
+    border: 1px solid #25bc25; /* Add a light border */
+}
+
+/* Make table headers stand out */
+#item-list th {
+    background-color: #f4f4f4; /* Light background for headers */
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 600px) {
+    #item-list, 
+    #item-list thead, 
+    #item-list tbody, 
+    #item-list th, 
+    #item-list td, 
+    #item-list tr {
+        display: block; /* Stack the table elements */
+        width: 100%; /* Full width for blocks */
+    }
+
+    #item-list th {
+        display: none; /* Hide headers */
+    }
+
+    #item-list tr {
+        margin-bottom: 15px; /* Add spacing between rows */
+    }
+
+    #item-list td {
+        text-align: right; /* Align cell content to the right */
+        position: relative; /* Position relative for pseudo-elements */
+    }
+
+    #item-list td::before {
+        content: attr(data-label); /* Show data-label as a pseudo-element */
+        position: absolute; /* Position it */
+        left: 0; /* Align to left */
+        width: 50%; /* Take up half width */
+        padding-left: 10px; /* Padding for aesthetics */
+        font-weight: bold; /* Make it bold */
+        text-align: left; /* Align text to the left */
+    }
+}
+
+
+
+
+
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 18px;
+    text-align: left;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table th, .styled-table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+}
+
+.styled-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+.styled-table a {
+    color: #ffffff;
+    text-decoration: none;
+}
+/*
+button {
+    background-color: #009879;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #007b63;
+
+
+} */
+
+
+
+.center-buttons {
+    display: flex;
+    gap: 15px; /* Adds spacing between the center buttons */
+    margin: 0 auto; /* Ensures the center buttons stay in the middle */
+}
+
+.right-button {
+    margin-left: auto; /* Pushes the logout button to the right */
+}
+
+.logout-button {
+    background-color: #ff4d4d; /* Red button color */
+    color: white;
+    text-decoration: none; /* Removes underline */
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.logout-button:hover {
+    background-color: #cc0000; /* Darker red on hover */
+}
+nav {
+    display: flex;
+    justify-content: space-between; /* Positions elements at opposite ends */
+    text-align: center;
+    margin-top: 10px;
+}
+nav button {
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+nav button:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+section {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@media (max-width: 768px) {
+    section {
+        width: 95%;
+    }
+    nav button {
+        padding: 8px 16px;
+    }
+}
+
+

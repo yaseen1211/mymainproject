@@ -1,0 +1,75 @@
+.alert-box {
+  position: fixed;
+  top: 20px; /* Position from the top */
+  right: 20px; /* Position from the right */
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  font-size: 16px;
+  opacity: 0;
+  animation: slideDown 1s forwards; /* Apply animation */
+  z-index: 9999;
+}
+
+/* Animation to move the box from top to bottom */
+@keyframes slideDown {
+  0% {
+    top: -100px; /* Start above the screen */
+    opacity: 0;
+  }
+  50% {
+    top: 20px; /* Position it 20px from the top */
+    opacity: 1;
+  }
+  100% {
+    top: 20px;
+    opacity: 1;
+  }
+}
+
+.alert-box button {
+  background-color: #721c24;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-left: 10px;
+}
+
+.alert-box button:hover {
+  background-color: #f1a7b2;
+}
+
+.alert-info {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.alert-warning {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.alert-error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+.alert-box .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    color: #721c24;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }

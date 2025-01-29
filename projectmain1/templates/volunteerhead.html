@@ -1,0 +1,1256 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="{% static 'css/Volunteerhead.css' %}">
+    <link rel="stylesheet" href="{% static 'css/global.css' %}">
+    <script src="{% static 'javascript/global.js' %}"></script>
+    <script src="{% static 'javascript/category.js' %}"></script>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampAid Supply Management System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+
+</head>
+
+<body>
+    {% include 'message.html' %}
+    <!-- {% include 'menu.html' %} -->
+    <header>
+        <h1>CampAid Supply Management System {{zone_name}}</h1>
+        <div style="margin-left: 714px;display: flex;">
+            <a href="{% url 'notification' %}?type=zone" style="background-color: #007bff; 
+                      color: white; 
+                      padding: 6px 9px; 
+                      border-radius: 5px; 
+                      font-size: 16px; 
+                      text-decoration: none; 
+                      display: inline-block; 
+                      text-align: center;">
+                💬
+            </a>
+        </div>
+        <button><a href="{% url 'logout' %}" class="logout-button">Logout</a></button>
+
+
+    </header>
+
+    <!-- Navigation to switch between sections -->
+    <nav>
+        <button onclick="showSection('admin-dashboard')">Manage-volunteers_camp</button>
+        <button onclick="showSection('volunteer-dashboard')">Manage-Volunteers</button>
+        <button onclick="showSection('volunteer-interface')">add Manage camp</button>
+        <button onclick="showSection('supplier-portal')">Manage camp </button>
+
+    </nav>
+
+    <!-- Admin Dashboard Section -->
+    <section id="admin-dashboard" style="display: block;">
+        <h2>Camp-head</h2>
+
+        <!-- Admin Registration Form -->
+        <div id="admin-registration">
+            <h3>Register Camp-head</h3>
+            <div class="div1">
+
+                <label for="Camp-head Name">Camp-head Name</label>
+                <input type="text" id="Camp-head Name" placeholder="Camp-head Name" name="Camp-head Name" required>
+
+                <label for="Camp-head Email">Camp-head Email</label>
+                <input type="email" id="Camp-head Email" placeholder="Camp-head Email" name="Camp-head Email" required>
+
+                <label for="Camp-head phone">Camp-head phone</label>
+                <input type="number" id="Camp-head phone" placeholder="Camp-head phone" name="Camp-head phone" required
+                    minlength="8">
+
+                <button name="Add_Camp_head" onclick="Add_Camp_head()">Register Camp-head</button>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h3>Registered Camp-head</h3>
+                <button onclick="Emailall()">Send all Emails</button>
+            </div>
+
+            <table class="styled-table" id="table_body">
+                <thead>
+                    <tr>
+                        <th>.No</th>
+                        <th>Camp-head Name</th>
+                        <th>Camp-head Email</th>
+                        <th>Camp-head phone</th>
+                        <th>Action</th>
+                        <th>Send Email</th>
+                    </tr>
+                </thead>
+                <tbody id="table_body1">
+
+                </tbody>
+            </table>
+
+        </div>
+
+        <!-- Camp Registration Form -->
+
+
+        </div>
+    </section>
+
+
+    <section id="volunteer-dashboard" style="display: none;">
+        <h2>Volunteers</h2>
+
+        <!-- Admin Registration Form -->
+        <div id="admin-registration">
+            <h3>Register Volunteers</h3>
+            <div class="div1">
+
+                <label for="Volunteers Name">Volunteers Name</label>
+                <input type="text" id="Volunteers Name" placeholder="Volunteers Name" name="Volunteers Name" required>
+
+                <label for="Volunteers Email">Volunteers Email</label>
+                <input type="email" id="Volunteers Email" placeholder="Volunteers Email" name="Volunteers Email"
+                    required>
+
+                <label for="Volunteers phone">Volunteers phone</label>
+                <input type="number" id="Volunteers phone" placeholder="Volunteers phone" name="Volunteers phone"
+                    required minlength="8">
+
+                <button name="Add_Volunteers" onclick="Add_volunteers()">Register Volunteers</button>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h3>Registered Volunteers</h3>
+                <button onclick="Emailall1()">Send all Emails</button>
+            </div>
+            <table class="styled-table" id="table_body2">
+                <thead>
+                    <tr>
+                        <th>.No</th>
+                        <th>Volunteers Name</th>
+                        <th>Volunteers Email</th>
+                        <th>Volunteers phone</th>
+                        <th>Volunteers status</th>
+                        <th>Action</th>
+                        <th>Send Email</th>
+                    </tr>
+                </thead>
+                <tbody id="table_body3">
+
+                </tbody>
+            </table>
+
+        </div>
+
+        <!-- Camp Registration Form -->
+
+
+        </div>
+    </section>
+
+    <!-- Volunteer Interface Section -->
+    <section id="volunteer-interface" style="display: none;">
+        <h2>Manage-camp</h2>
+
+        <!-- Combined Volunteer and Camp Registration Form -->
+        <div id="volunteer-registration">
+            <h3>Register camp</h3>
+            <div class="div1">
+                <label for="camp-name">camp Name</label>
+                <input type="text" id="camp-name" placeholder="camp Name" name="camp-name" required>
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+                <label for="camp-description">camp description</label>
+                <input type="text" id="camp-description" placeholder="camp description" name="camp-description"
+                    required>
+
+                <label for="camp-select">Select camphead</label>
+                <select id="camphead1" required>
+                    <option value="">Select a camphead</option>
+                </select>
+
+                <button name="camp_submit" onclick="Add_camp()">Register camp</button>
+            </div>
+            <h3>Registered camp</h3>
+            <table class="styled-table" id="camp-list">
+                <thead>
+                    <tr>
+                        <th>.No</th>
+                        <th>camp Name</th>
+                        <th>camp description</th>
+                        <th>camp camphead </th>
+                        <th>camp Active/deactive</th>
+                        <th>action</th>
+                    </tr>
+                </thead>
+                <tbody id="camp-list1">
+
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Item Reporting Form -->
+    </section>
+
+    <!-- Supplier Portal Section -->
+    <section id="supplier-portal" style="display: none;">
+        <h2>camps</h2>
+        <div class="div1">
+            <select id="campid1" required>
+                <option value="">Select a camp</option>
+            </select>
+        </div>
+        <div class="dropdown">
+            <button id="dropdownButton" class="dropdown-button" onclick="fetchVolunteers()">Select Volunteers</button>
+            <div id="dropdownContent" class="dropdown-content" style="display: none;">
+                <!-- Volunteers will be dynamically populated here -->
+            </div>
+        </div>
+
+        <button name="camp_submit" onclick="assignVolunteersToCamp()" style="padding: 10px;width:100%;">Assign Selected
+            Volunteers</button>
+
+
+        <h2>Assigned Camp and Volunteers</h2>
+        <div class="div1">
+            <select id="campid2" onchange="displayCampAndVolunteers()" required>
+                <option value="">Select a camp</option>
+            </select>
+        </div>
+        <table class="styled-table" id="table_body5">
+            <thead>
+                <tr>
+                    <th>.No</th>
+                    <th>Volunteers Name</th>
+                    <th>Volunteers Email</th>
+                    <th>Volunteers phone</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="table_body6">
+
+            </tbody>
+        </table>
+        </div>
+
+
+
+
+    </section>
+
+    <script>
+        // Function to switch between sections
+        function showSection(sectionId) {
+            loadCamps1();
+            loadcamphead();
+            document.getElementById('admin-dashboard').style.display = 'none';
+            document.getElementById('volunteer-dashboard').style.display = 'none';
+            document.getElementById('volunteer-interface').style.display = 'none';
+            document.getElementById('supplier-portal').style.display = 'none';
+
+            document.getElementById(sectionId).style.display = 'block';
+        }
+
+
+    </script>
+    <script>
+        function sendRequest(data, successCallback, errorCallback) {
+            const url = `/Camp__head/`;
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken,
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify(data)
+            };
+
+            fetch(url, options)
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Network response was not ok.');
+                    }
+                })
+                .then(data => {
+                    successCallback(data); // Call the success callback with the response data
+                })
+                .catch(error => {
+                    errorCallback(error); // Call the error callback if there is an issue
+                });
+        }
+
+
+
+
+        window.onload = function () {
+            fetchCamp_headUpdates();
+            fetchvolunteersUpdates();
+            campdata();
+        };
+
+
+
+        function fetchCamp_headUpdates() {
+
+            const data = {
+                'mode': '3' // Example additional parameter
+            };
+
+            sendRequest(
+                data,           // Data to send
+                function (data) { // Success callback
+
+                    const tableBody = document.querySelector('#table_body tbody');
+
+                    tableBody.innerHTML = ''; // Clear the table
+
+                    data.cumpHead_data.forEach(CampHead_data1 => {
+                        const newRow = document.createElement('tr');
+                        newRow.id = `CampHeadRow_${CampHead_data1.id}`;
+                        newRow.innerHTML = `
+                               <td></td> <!-- Auto-increment index -->
+                               <td>
+                                   <span class="name-display" id="CampHead_Name_${CampHead_data1.id}">${CampHead_data1.name}</span>
+                                   <input type="text" id="nameInput_${CampHead_data1.id}" class="name-input" style="display:none;" value="${CampHead_data1.name}">
+                               </td>
+                               <td>
+                                   <span class="email-display" id="CampHead_Email_${CampHead_data1.id}">${CampHead_data1.email}</span>
+                                   <input type="email" id="emailInput_${CampHead_data1.id}" class="email-input" style="display:none;" value="${CampHead_data1.email}">
+                               </td>
+                               <td>
+                                   <span class="phone-display" id="CampHead_Phone_${CampHead_data1.id}">${CampHead_data1.phone}</span>
+                                   <input type="text" id="phoneInput_${CampHead_data1.id}" class="phone-input" style="display:none;" value="${CampHead_data1.phone}">
+                               </td>
+                               <td>
+                                   <button id="editButton_${CampHead_data1.id}" onclick="toggleEditMode('${CampHead_data1.id}')">Edit</button>
+                                   <button id="submitButton_${CampHead_data1.id}" style="display:none;" onclick="submitEdit('${CampHead_data1.id}')">Submit</button>
+                                   <button id="deleteButton_${CampHead_data1.id}" onclick="deleteCamphead('${CampHead_data1.id}')">Delete</button>
+                               </td>
+                               <td>
+                                   <button id="emailButton_${CampHead_data1.id}" onclick="emailCampHead('${CampHead_data1.id}')">Send</button>
+                               </td>
+                                     `;
+                        tableBody.appendChild(newRow);
+                        updateRowNumbers();
+
+                    });
+                },
+                function (error) { // Error callback
+                    console.error('Error fetching product updates:', error);
+                }
+            );
+        }
+        function updateRowNumbers() {
+            const rows = document.querySelectorAll('#table_body1 tr');
+            rows.forEach((row, index) => {
+                // Update the .No cell in each row (1-based index)
+                row.children[0].textContent = index + 1;
+            });
+        }
+
+
+
+
+        function Add_Camp_head() {
+            const Camp_head_Name = document.getElementById('Camp-head Name').value;
+            const Camp_head_Email = document.getElementById('Camp-head Email').value;
+            const Camp_head_phone = document.getElementById('Camp-head phone').value;
+
+
+            const data = {
+                'Camp_head_Name': Camp_head_Name,
+                'Camp_head_Email': Camp_head_Email,
+                'Camp_head_phone': Camp_head_phone,
+
+                'mode': "2"
+            };
+
+            sendRequest(
+                data,           // Data to send
+                function (data) {
+
+                    // Success callback
+                    if (data.status === 'success') {
+                        showAlert("Camp_head added successfully", 'alert-success'); // Or display a success notification
+                        fetchCamp_headUpdates();
+                    } else {
+                        showAlert("Camp_head email already exists!", 'alert-warning'); // Or display an error notification
+                    }
+                    // Refresh product list
+                },
+                function (error) { // Error callback
+                    showAlert("Camp_head not added", 'alert-error');
+                    console.error('Error adding item:', error);
+                }
+            );
+        }
+
+
+        function deleteCamphead(CampHead_Id) {
+            const data = {
+                'CampHead_Id': CampHead_Id,
+                'mode': "4"
+            };
+
+            // Confirm deletion
+            if (confirm('Are you sure you want to delete this CampHead?')) {
+                sendRequest(
+                    data,
+                    function (response) {
+                        if (response.success) {
+                            showAlert("CampHead deleted successfully", 'alert-success');
+                            const row = document.getElementById('CampHeadRow_' + CampHead_Id);
+                            row.parentNode.removeChild(row);
+                        } else {
+                            // Display the error message from the response
+                            showAlert(response.message, 'alert-error');
+                        }
+                    },
+                    function (error) {
+                        // Error callback
+                        console.error('There was a problem with the fetch operation:', error);
+                    }
+                );
+            }
+        }
+
+
+
+        function emailCampHead(CampHead_Id) {
+            const data = {
+                'CampHead_Id': CampHead_Id,
+                'mode': "5"
+            };
+
+            // Confirm deletion
+            if (confirm('Are you sure you want to send email?')) {
+                sendRequest(
+                    data,
+                    function (response) {
+                        // Success callback: Remove the row from the table
+                        showAlert("Registration email sent successfully.", 'alert-success');
+                    },
+                    function (error) {
+                        // Error callback
+                        showAlert("Registration email sent problem.", 'alert-error');
+                    }
+
+                );
+                showAlert("Registration email senting wait....", 'alert-success');
+            }
+        }
+
+        function Emailall() {
+            const data = {
+                'mode': "6"
+            };
+
+            // Confirm deletion
+            if (confirm('Are you sure you want to send all emails?')) {
+                sendRequest(
+                    data,
+                    function (response) {
+                        // Success callback: Remove the row from the table
+                        showAlert("Registration all Emails sent successfully.", 'alert-success');
+                    },
+                    function (error) {
+                        // Error callback
+                        showAlert("Registration all Emails sent problem.", 'alert-error');
+                    }
+
+                );
+                showAlert("Registration all Emails senting wait....", 'alert-success');
+            }
+        }
+
+
+
+        function submitEdit(CampHead_Id) {
+
+            const nameInput = document.getElementById('nameInput_' + CampHead_Id).value;
+            const emailInput = document.getElementById('emailInput_' + CampHead_Id).value;
+            const phoneInput = document.getElementById('phoneInput_' + CampHead_Id).value;
+
+            const data = {
+                'name': nameInput,
+                'email': emailInput,
+                'phone': phoneInput,
+                'CampHead_Id': CampHead_Id,
+                'mode': "1"
+            };
+
+
+            sendRequest(
+                data,           // Data to send
+                function (data) { // Success callback
+
+                    showAlert("CampHead updated successfully", 'alert-success');
+                    document.getElementById('CampHead_Name_' + CampHead_Id).textContent = data.name;
+                    document.getElementById('CampHead_Email_' + CampHead_Id).textContent = data.email;
+                    document.getElementById('CampHead_Phone_' + CampHead_Id).textContent = data.phone;
+                    toggleEditMode(CampHead_Id); // Toggle edit mode off
+                },
+                function (error) { // Error callback
+                    showAlert("CampHead not updated", 'alert-error');
+                    console.error('Error updating item:', error);
+                }
+            );
+        }
+
+
+        function toggleEditMode(rowId) {
+            const nameDisplay = document.getElementById('CampHead_Name_' + rowId)
+            const nameInput = document.getElementById('nameInput_' + rowId);
+
+            const emailDisplay = document.getElementById('CampHead_Email_' + rowId)
+            const emailInput = document.getElementById('emailInput_' + rowId);
+
+            const phoneDisplay = document.getElementById('CampHead_Phone_' + rowId)
+            const phoneInput = document.getElementById('phoneInput_' + rowId);
+
+            const editButton = document.getElementById('editButton_' + rowId);
+            const submitButton = document.getElementById('submitButton_' + rowId);
+
+            // Check if the inputs are already displayed
+            if (nameDisplay.style.display === 'none') {
+                // Switch to display mode
+                nameDisplay.style.display = 'inline';
+                nameInput.style.display = 'none';
+                emailDisplay.style.display = 'inline';
+                emailInput.style.display = 'none';
+                phoneDisplay.style.display = 'inline';
+                phoneInput.style.display = 'none';
+
+                editButton.style.display = 'inline';
+                submitButton.style.display = 'none';
+            } else {
+                // Switch to edit mode
+                nameDisplay.style.display = 'none';
+                nameInput.style.display = 'inline';
+                emailDisplay.style.display = 'none';
+                emailInput.style.display = 'inline';
+                phoneDisplay.style.display = 'none';
+                phoneInput.style.display = 'inline';
+
+                editButton.style.display = 'none';
+                submitButton.style.display = 'inline';
+            }
+        }
+    </script>
+    <script>
+        function sendRequest3(data, successCallback, errorCallback) {
+            const url = `/volunteers/`;
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken,
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify(data)
+            };
+
+            fetch(url, options)
+                .then(response => {
+                    if (response.ok) {
+                        debugger
+                        return response.json();
+                    } else {
+                        throw new Error('Network response was not ok.');
+                    }
+                })
+                .then(data => {
+                    successCallback(data); // Call the success callback with the response data
+                })
+                .catch(error => {
+                    errorCallback(error); // Call the error callback if there is an issue
+                });
+        }
+
+
+
+        function fetchvolunteersUpdates() {
+
+            const data = {
+                'mode': '3' // Example additional parameter
+            };
+
+            sendRequest3(
+                data,           // Data to send
+                function (data) { // Success callback
+                         debugger
+                    const tableBody = document.querySelector('#table_body2 tbody');
+
+                    tableBody.innerHTML = ''; // Clear the table
+
+                    data.volunteers_data.forEach((volunteers_data1, index) => {
+                        const newRow = document.createElement('tr');
+                        newRow.id = `volunteersRow_${volunteers_data1.id}`;
+                        newRow.innerHTML = `
+                               <td>${index + 1}</td> <!-- Auto-increment index -->
+                               <td>
+                                   <span class="name-display" id="volunteers_Name_${volunteers_data1.id}">${volunteers_data1.name}</span>
+                                   <input type="text" id="nameInput1_${volunteers_data1.id}" class="name-input" style="display:none;" value="${volunteers_data1.name}">
+                               </td>
+                               <td>
+                                   <span class="email-display" id="volunteers_Email_${volunteers_data1.id}">${volunteers_data1.email}</span>
+                                   <input type="email" id="emailInput1_${volunteers_data1.id}" class="email-input" style="display:none;" value="${volunteers_data1.email}">
+                               </td>
+                               <td>
+                                   <span class="phone-display" id="volunteers_Phone_${volunteers_data1.id}">${volunteers_data1.phone}</span>
+                                   <input type="text" id="phoneInput1_${volunteers_data1.id}" class="phone-input" style="display:none;" value="${volunteers_data1.phone}">
+                               </td>
+                                <td>
+                                   <span class="status-display id="volunteers_status_${volunteers_data1.id}">${volunteers_data1.is_active ? 'Active' : 'Inactive'}</span>
+                               </td>
+                               <td>
+                                   <button id="editButton1_${volunteers_data1.id}" onclick="toggleEditMode1('${volunteers_data1.id}')">Edit</button>
+                                   <button id="submitButton1_${volunteers_data1.id}" style="display:none;" onclick="submitEditvolunteers('${volunteers_data1.id}')">Submit</button>
+                                   <button id="deleteButton1_${volunteers_data1.id}" onclick="deletevolunteers('${volunteers_data1.id}')">Delete</button>
+                               </td>
+                               <td>
+                                   <button id="emailButton1_${volunteers_data1.id}" onclick="emailvolunteers('${volunteers_data1.id}')">Send</button>
+                               </td>
+                                     `;
+                        tableBody.appendChild(newRow);
+
+                    });
+                },
+                function (error) { // Error callback
+                    console.error('Error fetching product updates:', error);
+                }
+            );
+        }
+
+        function toggleActive(volunteerId) {
+            const element = document.getElementById(`volunteers_Phone_${volunteerId}`);
+            const isActive = element.classList.contains('status-active');
+
+            // Toggle classes
+            if (isActive) {
+                element.classList.remove('status-active');
+                element.classList.add('status-inactive');
+                element.textContent = 'Inactive';
+            } else {
+                element.classList.remove('status-inactive');
+                element.classList.add('status-active');
+                element.textContent = 'Active';
+            }
+        }
+
+
+
+        function toggleDropdown() {
+            const dropdownContent = document.getElementById('dropdownContent');
+            const isOpen = dropdownContent.style.display === 'block';
+
+            // Close all dropdowns before opening a new one
+            document.querySelectorAll('.dropdown-content').forEach(content => content.style.display = 'none');
+
+            // Toggle the current dropdown
+            dropdownContent.style.display = isOpen ? 'none' : 'block';
+            document.body.classList.toggle('dropdown-open', !isOpen);
+        }
+
+        // Close dropdown if clicked outside
+        window.addEventListener('click', function (event) {
+            if (!event.target.matches('.dropdown-button') && !event.target.closest('.dropdown-content')) {
+                document.querySelectorAll('.dropdown-content').forEach(content => content.style.display = 'none');
+                document.body.classList.remove('dropdown-open');
+            }
+        });
+
+        // Function to fetch volunteers from the server
+        function fetchVolunteers() {
+            const data = { 'mode': '10' };  // Mode 5: Example for fetching volunteers
+
+            // Send AJAX request to fetch volunteer data
+            sendRequest3(
+                data,  // Data to send to the server
+                function (response) {  // Success callback
+                    const dropdownContent = document.getElementById('dropdownContent');
+                    dropdownContent.innerHTML = '';  // Clear any existing data
+
+                    // Dynamically create options based on the server response
+                    response.volunteers_data.forEach(volunteer => {
+                        const label = document.createElement('label');
+                        label.innerHTML = `
+                    <input type="checkbox" name="camp-select[]" value="${volunteer.id}">
+                    ${volunteer.name}
+                `;
+                        dropdownContent.appendChild(label);
+                    });
+
+                    // Open the dropdown after fetching data
+                    toggleDropdown();
+                },
+                function (error) {  // Error callback
+                    console.error('Error fetching volunteers:', error);
+                }
+            );
+        }
+
+
+
+
+
+        function assignVolunteersToCamp() {
+            const campid = document.getElementById('campid1').value
+
+            const selectedCampId = campid;
+            // Get selected camp ID
+            if (!selectedCampId) {
+                showAlert("Please select a camp first.", 'alert-warning');
+                return;
+            }
+
+            const selectedVolunteers = Array.from(document.querySelectorAll('input[name="camp-select[]"]:checked'))
+                .map(input => input.value); // Get selected volunteer IDs
+            if (selectedVolunteers.length === 0) {
+
+                showAlert("Please select at least one volunteer.", 'alert-warning');
+                return;
+            }
+
+            const data = {
+                'camp_id': campid,
+                'volunteer_ids': selectedVolunteers,
+                'mode': "7"
+            };
+
+            // Send AJAX request to associate selected volunteers with the selected camp
+            sendRequest3(
+                data,  // Send data to the server
+                function (response) {  // Success callback
+
+                    showAlert("Volunteers successfully assigned to the camp", 'alert-success');
+                    displayCampAndVolunteers();
+                },
+                function (error) {  // Error callback
+                    console.error('Error assigning volunteers:', error);
+                    showAlert("Error assigning volunteers to the camp", 'alert-error');
+                }
+            );
+        }
+
+
+
+
+        function displayCampAndVolunteers() {
+            const campId = document.getElementById('campid2').value;
+
+            const data = {
+                'mode': '8',
+                'campId': campId,
+            };
+            sendRequest3(
+                data,           // Data to send
+                function (data) { // Success callback
+
+                    const tableBody = document.querySelector('#table_body5 tbody');
+
+                    tableBody.innerHTML = ''; // Clear the table
+
+                    data.volunteers_data.forEach((volunteers_data1, index) => {
+                        const newRow = document.createElement('tr');
+                        newRow.id = `volunteersRow3_${volunteers_data1.id}`;
+                        newRow.innerHTML = `
+                                 <td>${index + 1}</td> <!-- Auto-increment index -->
+                                 <td>
+                                     <span class="name-display" id="volunteers_Name_${volunteers_data1.id}">${volunteers_data1.name}</span>
+                                     
+                                 </td>
+                                 <td>
+                                     <span class="email-display" id="volunteers_Email_${volunteers_data1.id}">${volunteers_data1.email}</span>
+                                    
+                                 </td>
+                                 <td>
+                                     <span class="phone-display" id="volunteers_Phone_${volunteers_data1.id}">${volunteers_data1.phone}</span>
+                                     
+                                 </td>
+                                 <td>
+                                     <button id="deleteButton1_${volunteers_data1.id}" onclick="deleteAssociatedVolunteers('${volunteers_data1.id}')">Delete</button>
+                                 </td>
+                                       `;
+                        tableBody.appendChild(newRow);
+
+                    });
+                },
+                function (error) { // Error callback
+                    console.error('Error fetching product updates:', error);
+                }
+            );
+        }
+
+        function deleteAssociatedVolunteers(volunteerid) {
+            const data = {
+                'volunteerid': volunteerid, // ID of the associated camp
+                'mode': "9" // Mode for deleting associated volunteers
+            };
+            debugger
+            // Confirm deletion
+            if (confirm('Are you sure you want to delete this volunteer associated with this camp?')) {
+                sendRequest3(
+                    data,
+                    function (response) {
+                        // Success callback
+                        showAlert("All associated volunteers deleted successfully", 'alert-success');
+
+                        // Optionally, refresh the volunteers list or remove them dynamically from the UI
+                        displayCampAndVolunteers();
+                    },
+                    function (error) {
+                        // Error callback
+                        console.error('Error while deleting associated volunteers:', error);
+                        showAlert("Failed to delete associated volunteers", 'alert-error');
+                    }
+                );
+            }
+        }
+
+
+
+
+
+        function Add_volunteers() {
+            const volunteers_Name = document.getElementById('Volunteers Name').value;
+            const volunteers_Email = document.getElementById('Volunteers Email').value;
+            const volunteers_phone = document.getElementById('Volunteers phone').value;
+
+
+            const data = {
+                'volunteers_Name': volunteers_Name,
+                'volunteers_Email': volunteers_Email,
+                'volunteers_phone': volunteers_phone,
+
+                'mode': "2"
+            };
+
+
+            sendRequest3(
+                data,           // Data to send
+                function (data) {
+
+                    // Success callback
+                    if (data.status === 'success') {
+                        showAlert("volunteers added successfully", 'alert-success'); // Or display a success notification
+                        fetchvolunteersUpdates();
+                    } else {
+                        showAlert("volunteers email already exists!", 'alert-warning'); // Or display an error notification
+                    }
+                    // Refresh product list
+                },
+                function (error) { // Error callback
+                    showAlert("volunteers not added", 'alert-error');
+                    console.error('Error adding item:', error);
+                }
+            );
+        }
+
+
+        function deletevolunteers(volunteers_Id) {
+            const data = {
+                'volunteers_Id': volunteers_Id,
+                'mode': "4"
+            };
+
+            // Confirm deletion
+            if (confirm('Are you sure you want to delete this volunteers?')) {
+                sendRequest3(
+                    data,
+                    function (response) {
+                        // Success callback: Remove the row from the table
+                        showAlert("volunteers deleted successfully", 'alert-success');
+                        const row = document.getElementById('volunteersRow_' + volunteers_Id);
+                        row.parentNode.removeChild(row);
+                    },
+                    function (error) {
+                        // Error callback
+                        console.error('There was a problem with the fetch operation:', error);
+                    }
+                );
+            }
+        }
+
+
+
+        function emailvolunteers(volunteers_Id) {
+            const data = {
+                'volunteers_Id': volunteers_Id,
+                'mode': "5"
+            };
+
+            // Confirm deletion
+            if (confirm('Are you sure you want to send email?')) {
+                sendRequest3(
+                    data,
+                    function (response) {
+                        // Success callback: Remove the row from the table
+                        showAlert("Registration email sent successfully.", 'alert-success');
+                    },
+                    function (error) {
+                        // Error callback
+                        showAlert("Registration email sent problem.", 'alert-error');
+                    }
+
+                );
+                showAlert("Registration email senting wait....", 'alert-success');
+            }
+        }
+
+        function Emailall1() {
+            const data = {
+                'mode': "6"
+            };
+
+            // Confirm deletion
+            if (confirm('Are you sure you want to send all emails?')) {
+                sendRequest3(
+                    data,
+                    function (response) {
+                        // Success callback: Remove the row from the table
+                        showAlert("Registration all Emails sent successfully.", 'alert-success');
+                    },
+                    function (error) {
+                        // Error callback
+                        showAlert("Registration all Emails sent problem.", 'alert-error');
+                    }
+
+                );
+                showAlert("Registration all Emails senting wait....", 'alert-success');
+            }
+        }
+
+
+
+        function submitEditvolunteers(volunteers_id) {
+
+            const nameInput = document.getElementById('nameInput1_' + volunteers_id).value;
+            const emailInput = document.getElementById('emailInput1_' + volunteers_id).value;
+            const phoneInput = document.getElementById('phoneInput1_' + volunteers_id).value;
+
+            const data = {
+                'name': nameInput,
+                'email': emailInput,
+                'phone': phoneInput,
+                'volunteers_id': volunteers_id,
+                'mode': "1"
+            };
+
+
+            sendRequest3(
+                data,           // Data to send
+                function (data) { // Success callback
+
+                    showAlert("CampHead updated successfully", 'alert-success');
+                    document.getElementById('volunteers_Name_' + volunteers_id).textContent = data.name;
+                    document.getElementById('volunteers_Email_' + volunteers_id).textContent = data.email;
+                    document.getElementById('volunteers_Phone_' + volunteers_id).textContent = data.phone;
+                    toggleEditMode1(volunteers_id); // Toggle edit mode off
+                },
+                function (error) { // Error callback
+                    showAlert("volunteers not updated", 'alert-error');
+                    console.error('Error updating item:', error);
+                }
+            );
+        }
+
+
+        function toggleEditMode1(rowId) {
+            const nameDisplay = document.getElementById('volunteers_Name_' + rowId)
+            const nameInput = document.getElementById('nameInput1_' + rowId);
+
+            const emailDisplay = document.getElementById('volunteers_Email_' + rowId)
+            const emailInput = document.getElementById('emailInput1_' + rowId);
+
+            const phoneDisplay = document.getElementById('volunteers_Phone_' + rowId)
+            const phoneInput = document.getElementById('phoneInput1_' + rowId);
+
+            const editButton = document.getElementById('editButton1_' + rowId);
+            const submitButton = document.getElementById('submitButton1_' + rowId);
+
+            // Check if the inputs are already displayed
+            if (nameDisplay.style.display === 'none') {
+                // Switch to display mode
+                nameDisplay.style.display = 'inline';
+                nameInput.style.display = 'none';
+                emailDisplay.style.display = 'inline';
+                emailInput.style.display = 'none';
+                phoneDisplay.style.display = 'inline';
+                phoneInput.style.display = 'none';
+
+                editButton.style.display = 'inline';
+                submitButton.style.display = 'none';
+            } else {
+                // Switch to edit mode
+                nameDisplay.style.display = 'none';
+                nameInput.style.display = 'inline';
+                emailDisplay.style.display = 'none';
+                emailInput.style.display = 'inline';
+                phoneDisplay.style.display = 'none';
+                phoneInput.style.display = 'inline';
+
+                editButton.style.display = 'none';
+                submitButton.style.display = 'inline';
+            }
+        }
+
+    </script>
+    <script>
+
+        function sendRequest1(data, successCallback, errorCallback) {
+            const url = `/campmanage/`;
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken,
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify(data)
+            };
+
+            fetch(url, options)
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Network response was not ok.');
+                    }
+                })
+                .then(data => {
+                    successCallback(data); // Call the success callback with the response data
+                })
+                .catch(error => {
+                    errorCallback(error); // Call the error callback if there is an issue
+                });
+        }
+
+
+        // window.onload = function () {
+
+        // };
+
+
+
+        function campdata() {
+            ;
+            const data = {
+                'mode': '3' // Example additional parameter
+            };
+
+            sendRequest1(
+                data, // Data to send
+                function (data) { // Success callback
+                    const tableBody = document.querySelector('#camp-list tbody');
+
+                    tableBody.innerHTML = ''; // Clear the table
+
+                    // Iterate through the camp data and populate the table
+                    data.camps.forEach((camp, index) => {
+                        const newRow = document.createElement('tr');
+                        newRow.id = `campRow_${camp.id}`;
+                        newRow.innerHTML = `
+                    <td>${index + 1}</td> <!-- Auto-increment index -->
+                    <td>
+                        <span class="camp-name-display" id="camp-name_${camp.id}">${camp.name}</span>
+                    </td>
+                    <td>
+                        <span class="camp-description-display" id="camp-description_${camp.id}">${camp.description}</span>
+                    </td>
+                    <td>
+                        <span class="camp-head-name-display" id="camp-head-name_${camp.id}">
+                            ${camp.camphead ? camp.camphead.name : 'N/A'}
+                        </span>
+                    </td>
+                   <td>
+                       <label class="switch">
+                           <input 
+                               type="checkbox" 
+                               id="camp-description_${camp.id}" 
+                               ${camp.is_active ? 'checked' : ''} 
+                               onchange="updateStatus(${camp.id}, this.checked)"
+                           >
+                           <span class="slider round"></span>
+                       </label>
+                   </td>
+
+                    <td>
+                        <button id="deleteButton_${camp.id}" onclick="deletecamp('${camp.id}')">Delete</button>
+                    </td>
+                `;
+                        tableBody.appendChild(newRow);
+                    });
+
+
+                },
+                function (error) { // Error callback
+                    console.error('Error fetching camp data:', error);
+                }
+            );
+        }
+
+        function updateStatus(campId, isChecked) {
+            // Prepare the data object
+            const data = {
+                'campId1':campId,
+                'is_active': isChecked,
+                'mode':"1"
+            };
+
+            // Send the request
+            sendRequest1(
+                data, // Data payload
+                function (response) { // Success callback
+                    if (response.status === "success") {
+                        showAlert(`Camp status updated to ${response.is_active ? "Active" : "Inactive"}`, 'alert-success');
+                    } else {
+                        showAlert(response.message || "Failed to update status", 'alert-error');
+                    }
+                },
+                function (error) { // Error callback
+                    showAlert("Error updating camp status", 'alert-error');
+                    console.error('Error:', error);
+                }
+            );
+        }
+
+
+
+
+
+
+
+
+
+        function Add_camp() {
+            const camp_name = document.getElementById('camp-name').value;
+            const camp_description = document.getElementById('camp-description').value;
+            const camp_head_id = document.getElementById('camphead1').value
+
+
+
+            const data = {
+                'camp_name': camp_name,
+                'camp_description': camp_description,
+                'camp_head_id': camp_head_id,
+
+                'mode': "2"
+            };
+
+            sendRequest1(
+                data,           // Data to send
+                function (data) {
+
+                    // Success callback
+                    if (data.status === 'success') {
+                        showAlert("camp added successfully", 'alert-success'); // Or display a success notification
+                        campdata();
+                    }
+                    // Refresh product list
+                },
+                function (error) { // Error callback
+                    showAlert("camp not added", 'alert-error');
+                    console.error('Error adding item:', error);
+                }
+            );
+        }
+
+
+        function deletecamp(campid) {
+            const data = {
+                'campid': campid,
+                'mode': "4"
+            };
+
+            // Confirm deletion
+            if (confirm('Are you sure you want to delete this item?')) {
+                sendRequest1(
+                    data,
+                    function (response) {
+                        // Success callback: Remove the row from the table
+                        showAlert("camp deleted successfully", 'alert-success');
+                        const row = document.getElementById('campRow_' + campid);
+                        row.parentNode.removeChild(row);
+                    },
+                    function (error) {
+                        // Error callback
+                        showAlert("camp not deleted", 'alert-error');
+                    }
+                );
+            }
+        }
+
+
+
+
+        function loadCamps1() {
+            // Select the dropdowns
+            const select1 = document.getElementById('campid1');
+            const select2 = document.getElementById('campid2');
+            const data = { 'mode': '6' };
+
+            // Fetch data from the server
+            sendRequest1(
+                data,
+                function (data) {
+                    // Common options for both selects
+                    const optionsHTML = '<option value="">Select a camp</option>' +
+                        data.camps.map(camp => `<option value="${camp.id}">${camp.name}</option>`).join('');
+
+                    // Populate both dropdowns
+                    select1.innerHTML = optionsHTML;
+                    select2.innerHTML = optionsHTML;
+                },
+                function (error) {
+                    console.error('Error fetching camp data:', error);
+                }
+            );
+        }
+
+        function loadcamphead() {
+
+            const select = document.getElementById('camphead1');
+            const data = { 'mode': '3' };
+
+            sendRequest(
+                data,
+                function (data) {
+
+                    select.innerHTML = '<option value="">Select a camphead</option>';
+                    data.cumpHead_data.forEach(camp => {
+                        const option = document.createElement('option');
+                        option.value = camp.id;
+                        option.textContent = camp.name;
+                        select.appendChild(option);
+                    });
+                },
+                function (error) {
+                    console.error('Error fetching camp data:', error);
+                }
+
+            );
+        }
+
+
+
+
+    </script>
+
+</body>
+
+</html>

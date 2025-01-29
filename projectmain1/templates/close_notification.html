@@ -1,0 +1,87 @@
+{% load static %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/en.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Include jQuery -->
+</head>
+<body>
+    <div class="container">
+        <h2>Edit Notifications</h2>
+        <table class="notification-list">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>To</th>
+                    <th>Subject</th>
+                    <th>Priority</th>
+                    <th>Closed</th>
+                    <th>Close Notification</th>
+                    <th>Delete Notification</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for notification in notifications %}
+                <tr>
+                    <td>{{ notification.publish_date }}</td>
+                    <td>{{ notification.to }}</td>
+                    <td>{{ notification.subject }}</td>
+                    <td>{{ notification.priority }}</td>
+                    <td>
+                        {% if notification.close_notification %}
+                        YES <!-- If notification is closed -->
+                        {% else %}
+                        NO  <!-- If notification is not closed -->
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if not notification.close_notification %}
+                        <a href="{% url 'close_notification' notification.id %}" class="btn btn-close">Close</a>
+                        {% else %}
+                        Closed on {{ notification.expiration_date }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        <form action="{% url 'close_notification' notification.id %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="delete" value="true">  <!-- Hidden field to trigger delete action -->
+                            <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this notification?');">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="footer-links">
+            <a href="{% url 'front' %}">Back to Dashboard</a>
+        </div>
+    </div>
+
+    <script>
+        function fetchNotifications() {
+            $.ajax({
+                url: "{% url 'publish_notification' %}",
+                method: "GET",
+                success: function(data) {
+                    var tbody = $('#notification-body');
+                    tbody.empty(); // Clear the existing notifications
+                    $.each(data, function(index, notification) {
+                        var closedText = notification.close_notification ? "YES" : "NO";
+                        tbody.append(
+                            '<tr>' +
+                                '<td>' + notification.publish_date + '</td>' +
+                                '<td>' + notification.subject + '</td>' +
+                                '<td>' + closedText + '</td>' +
+                                '<td>' + notification.expiration_date + '</td>' +
+                            '</tr>'
+                        );
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error fetching notifications:", error);
+                }
+            });
+        }
+
+        // Fetch notifications every 5 seconds
+        setInterval(fetchNotifications, 5000);
+    </script>
+</body>
