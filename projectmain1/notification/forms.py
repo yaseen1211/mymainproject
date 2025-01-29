@@ -9,9 +9,9 @@ class NotificationForm(forms.ModelForm):
             'expiration_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
         }
 
-    def _init_(self, *args, **kwargs):
-        super(NotificationForm, self)._init_(*args, **kwargs)
-        # self.fields['to'].widget.attrs.update({'class': 'form-select'})
+    def __init__(self, *args, **kwargs):
+        super(NotificationForm, self).__init__(*args, **kwargs)
+        self.fields['to'].widget.attrs.update({'class': 'form-select'})
         self.fields['subject'].widget.attrs.update({'class': 'form-control'})
         self.fields['message'].widget.attrs.update({'class': 'form-control'})
         self.fields['priority'].widget.attrs.update({'class': 'form-select'})

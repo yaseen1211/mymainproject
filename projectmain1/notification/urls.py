@@ -1,8 +1,11 @@
-# project_name/urls.py
-from django.contrib import admin
-from django.urls import include, path
+from django.urls import path
+from notification import views as notification_views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('notification/', include('notification.urls')),  # Include notification app's URLs
+    path('view/', notification_views.close_notification, name='close_notification'),
+    path('close/', notification_views.view_notifications, name='view_notifications'),
+    path('publish/', notification_views.publish_notification, name='publish_notification'),
+    path('delete-notification/', notification_views.delete_notification, name='delete_notification'),
+    path('notifications/', notification_views.notification_detail, name='notification_detail'),
+    path('notification/<int:notification_id>/', notification_views.notification_detail, name='notification_detail'),
 ]
