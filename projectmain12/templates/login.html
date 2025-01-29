@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <style>
+    body {background-image: url('{% static "image/hero-bg.jpg" %}');}
+  </style>
+  <!-- Link to Bootstrap CSS (ensure it's loaded first) -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+  <!-- Link to your custom CSS -->
+  <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+
+<body>
+  <div class="wrapper">
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <h2>Login</h2>
+
+      <!-- Error Message Display -->
+      <div id="error-container" class="error-message">
+        {% if error %}
+        <p>{{ error }}</p>
+        {% endif %}
+      </div>
+
+      <div class="input-field">
+        <input type="text" required id="email" name="username">
+        <label>Enter your username</label>
+      </div>
+      <div class="input-field">
+        <input type="password" required id="password" name="password">
+        <label>Enter your password</label>
+      </div>
+      <div class="forget">
+        <label for="remember_me">
+          <input type="checkbox" id="remember_me" name="remember_me"> Remember Me
+        </label>
+        <a href="{% url 'forget' %}">Forgot password?</a>
+      </div>
+      <button type="submit">Log In</button>
+      <!-- <div class="register">
+        <p>Don't have an account? <a href="#">Register</a></p>
+      </div> -->
+    </form>
+  </div>
+
+  <!-- Optional: Include Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

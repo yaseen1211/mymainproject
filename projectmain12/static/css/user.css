@@ -1,0 +1,211 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: sticky;
+    top: 0;
+    padding: 15px;
+    cursor: pointer;
+}
+
+.background {
+    background: black;
+    background-blend-mode: darken;
+    background-size: cover;
+    box-shadow:10px 16px 75px #d9d9d9, -10px 57px 60px #503866;
+    
+}
+
+.nav-list {
+    width: 70%;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    list-style: none;
+}
+
+h1{
+    color: rgb(207, 200, 192);
+    font-size:50px;
+    padding-right:411px;
+    
+}
+  
+  select {
+    /* Reset Select */
+    appearance: none;
+    outline: 10px red;
+    border: 0;
+    box-shadow: none;
+    /* Personalize */
+    flex: 1;
+    padding: 0 1em;
+    color: #fff;
+    background-color:gray;
+    background-image: none;
+    cursor: pointer;
+  }
+  /* Remove IE arrow */
+  select::-ms-expand {
+    display: none;
+  }
+  /* Custom Select wrapper */
+  .select {
+    position: relative;
+    display: flex;
+    width: 10em;
+    height: 2em;
+    border-radius: 13px;
+    overflow: hidden;
+    margin-bottom:-40px ;
+
+  }
+  /* Arrow */
+  .select::after {
+    content: '\25BC';
+    position: absolute;
+    top: -7;
+    right: 0;
+    padding: 1em;
+    background-color: #34495e;
+    transition: .25s all ease;
+    pointer-events: none;
+  }
+ /* Transition */
+  .select:hover::after {
+    color: #f39c12;
+  }
+ 
+.container {
+    width: 90%;
+    max-width: 1000px;
+    background: linear-gradient(145deg, #ffffff, #e6e6e6);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 10px 10px 30px #d9d9d9, -10px -10px 30px #ffffff;
+    margin-top:145px;
+    margin-left:200px;
+
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    border: 2px solid blue;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #007bff;
+    color: white;
+    border-right: 1px solid #007bff;
+}
+
+td img {
+    border-radius: 50%;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+td span {
+    padding: 5px 10px;
+    border-radius: 20px;
+    color: rgb(144, 38, 38);
+}
+
+td span.shipped {
+    background-color: #2aac25;
+}
+
+td span.delivered {
+    background-color: #00ff99;
+}
+
+td span.pending {
+    background-color: #ffcc00;
+}
+
+td span.cancelled {
+    background-color: #ff6666;
+}
+
+tr:hover td {
+    transform: scale(1.05);
+    transition: transform 0.2s;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+td:last-child, th:last-child {
+    border-right: none;
+}
+body{
+    background-color:#a594c7;
+}
+.div1{
+    display:inline-flex;
+
+}
+
+/* Style the button wrapper */
+.exit-wrapper {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Style the anchor link inside the button */
+.exit-button {
+    display: inline-block;
+    background-color: #ff4d4d; /* Red background color */
+    color: white; /* White text color */
+    text-decoration: none; /* Remove underline from text */
+    padding: 10px 20px; /* Add some padding */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Adjust font size */
+    font-weight: bold; /* Make text bold */
+    text-align: center; /* Center align text */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Add smooth hover effects */
+}
+
+/* Hover effect for the anchor */
+.exit-button:hover {
+    background-color: #d93636; /* Darker red on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+    text-decoration: none; /* Ensure no underline on hover */
+}
+
+/* Focus effect for better accessibility */
+.exit-button:focus {
+    outline: 2px solid #ffffff;
+    background-color: #c62828; /* Even darker red on focus */
+}
+

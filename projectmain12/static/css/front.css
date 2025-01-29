@@ -1,0 +1,118 @@
+/* Add custom media queries for more control */
+@media (max-width: 768px) {
+  .header {
+      flex-direction: column;  /* Stack elements vertically on small screens */
+      padding: 10px;  /* Adjust padding for smaller screens */
+  }
+
+  .header h1 {
+      font-size: 2.5em;  /* Adjust the title size for small screens */
+  }
+
+  .login-button {
+      width: 100%;  /* Make the login button full-width on small screens */
+  }
+
+  .menu-dropdown {
+      width: 100%;  /* Ensure dropdown is full-width on small screens */
+  }
+}
+
+
+
+/* General Styles */
+body {
+  margin: 0;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  color: white;
+  overflow: hidden; /* Disable scrolling */
+}
+
+/* Header Section */
+body .header {
+  background-color: rgba(51, 51, 51, 0.8);
+  padding: 1px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
+
+body .header h1 {
+  font-size: 5em;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-align: center;
+  flex: 1;
+  margin: 0;
+}
+
+/* Custom Login Button */
+body .login-button {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+body .login-button:hover {
+  background-color: #0056b3;
+  transform: scale(1.1);
+}
+
+/* First Page Styles */
+body .first-page {
+  background-image: url('https://www.globalgiving.org/uploads/2018/08/22/KeralaFloods_Facebook-1.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  height: 100vh;
+  padding-top: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Zone Dropdown Menu */
+body .menu-dropdown {
+  width: 180px;
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #6a11cb, #2575fc);
+  color: white;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+body .menu-dropdown:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(90deg, #2575fc, #6a11cb);
+}
+
+body .menu-dropdown:focus {
+  outline: none;
+  border-color: white;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+body .menu-dropdown option {
+  background: white;
+  color: #333;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.div1{position: relative;
+left: -192px;}
