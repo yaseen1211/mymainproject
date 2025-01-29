@@ -19,110 +19,103 @@ from django.views.decorators.cache import cache_control
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def login(request):
+    if request.POST:
+        username = request.POST['username']  # Getting username and password
+        password = request.POST['password']
+        remember_me = request.POST.get('remember_me')
 
-       if request.POST:
-           username = request.POST['username']  # Getting username and password
-           password = request.POST['password']
-           remember_me = request.POST.get('remember_me')
-           user = authenticate(username=username, password=password)  # Authenticate user
-        
-           
-           if user: # Debugging log
-            auth_login(request, user)  # Log in the user
+        # Hardcoded superadmin credentials
+        SUPERADMIN_USERNAME = "shahin"
+        SUPERADMIN_PASSWORD = "12345678"
 
+        # Check if the provided credentials are for the superadmin
+        if username == SUPERADMIN_USERNAME and password == SUPERADMIN_PASSWORD:
+            # Log in the superadmin directly
+            user = authenticate(username=SUPERADMIN_USERNAME, password=SUPERADMIN_PASSWORD)
+            if not user:
+                # Create or fetch a superadmin user (ensure they exist in the database)
+                from django.contrib.auth.models import User
+                user, created = User.objects.get_or_create(username=SUPERADMIN_USERNAME)
+                if created:
+                    user.set_password(SUPERADMIN_PASSWORD)
+                    user.is_superuser = True
+                    user.is_staff = True
+                    user.save()
+            auth_login(request, user)
+
+            # Set session expiration based on "remember_me"
             if remember_me:
-                # Extend session expiration to 30 days
                 request.session.set_expiry(30 * 24 * 60 * 60)  # 30 days in seconds
             else:
-                # Default session expiry (browser close)
                 request.session.set_expiry(0)
 
+            # Redirect to the superadmin dashboard
+            return redirect('superadmin')
+
+        # Authenticate other users
+        user = authenticate(username=username, password=password)
+
+        if user:
+            auth_login(request, user)
+
+            if remember_me:
+                request.session.set_expiry(30 * 24 * 60 * 60)  # 30 days in seconds
+            else:
+                request.session.set_expiry(0)
 
             if hasattr(user, 'camp_head'):
                 # Get the first camp associated with the camp head
                 camp_head2_first = user.camp_head.campHead2.first()
-                
-                if camp_head2_first:  # Handle case where no camp is assigned
-                    if not camp_head2_first.is_active:  # Check if the camp is inactive
+
+                if camp_head2_first:
+                    if not camp_head2_first.is_active:
                         return render(request, 'login.html', {
                             'error': 'This volunteer is assigned to a deactivated camp. Please contact the administrator.'
                         })
 
-                    # If the camp is active, proceed with login
                     camp_id = camp_head2_first.id
                     signer = Signer()
                     signed_value = signer.sign(camp_id)
-            
-                    # Redirect to CampHead dashboard
+
                     response = redirect('Volunteer')
                     response.set_cookie(
-                        'login',  # Cookie name
-                        signed_value,  # Encrypted cookie value
-                        httponly=True  # Prevent JavaScript access
+                        'login',
+                        signed_value,
+                        httponly=True
                     )
                     return response
                 else:
                     return render(request, 'login.html', {
                         'error': 'This volunteer is not assigned to any camp.'
                     })
-     
-                 
-                    
-                    
-   
-               # Check if the user is a VolunteerHead
+
             elif hasattr(user, 'volunteerhead'):
-                   zone_i= user.volunteerhead.zones.first() # Get associated zone ID
-                   if zone_i:  # Handle null camp_head case
-                        zone_id=zone_i.id
-                        signer = Signer()
-                        signed_value = signer.sign(zone_id)
-                        
-        
-                        # Redirect to VolunteerHead dashboard
-                        response = redirect('Camp__head')
-                        response.set_cookie(
-                            'login',  # Cookie name
-                            signed_value,  # Encrypted cookie value  
-                         #    max_age=3600,  # Cookie expires in 1 hour
-                            httponly=True  # Prevent JavaScript access
-                        )
-                        return response
-                   else:
-                    return render(request, 'login.html', {'error': 'this volunteer not assigned any other Zone'})     
-            
-            elif hasattr(user, 'volunteer'):
-                assigned_camp = user.volunteer.camp1
-                
-                if assigned_camp:  # Check if the volunteer is assigned a camp
-                
-                    # If the camp is active, proceed with login
-                    camp_id = assigned_camp.id
+                zone_i = user.volunteerhead.zones.first()
+                if zone_i:
+                    zone_id = zone_i.id
                     signer = Signer()
-                    signed_value = signer.sign(camp_id)
-            
-                    # Redirect to CampHead dashboard
-                    response = redirect('volunteer1')
+                    signed_value = signer.sign(zone_id)
+
+                    response = redirect('Camp__head')
                     response.set_cookie(
-                        'login',  # Cookie name
-                        signed_value,  # Encrypted cookie value
-                        httponly=True  # Prevent JavaScript access
+                        'login',
+                        signed_value,
+                        httponly=True
                     )
                     return response
                 else:
-                    return render(request, 'volunteers.html', {
-                        'error': 'your not assigned to a camp. Please contact the administrator.'
-                    })
-     
-   
-               # Redirect to login if the user is not associated with any role
+                    return render(request, 'login.html', {'error': 'This volunteer is not assigned to any Zone'})
+
+            elif hasattr(user, 'volunteer'):
+                return render(request, 'login.html', {'error': 'This volunteer does not have access to any interface'})
+
             else:
-                 return redirect('superadmin')
-               
-           else:
-               
-               return render(request, 'login.html', {'error': 'Invalid username or password.'})
-       return render(request,'login.html')
+                return redirect('superadmin')
+
+        else:
+            return render(request, 'login.html', {'error': 'Invalid username or password.'})
+
+    return render(request, 'login.html')
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def front(request):

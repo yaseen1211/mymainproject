@@ -14,4 +14,4 @@ class product(models.Model):
     product_unit=models.CharField(max_length=255,null=True)
     product_Limit=models.IntegerField(null=True)
     
-    camp1 = models.ForeignKey(Camp, on_delete=models.CASCADE, null=True, blank=True, related_name='products')
+    camp1 = models.ForeignKey(Camp, on_delete=models.CASCADE, null=True, blank=True, related_name='products')  
