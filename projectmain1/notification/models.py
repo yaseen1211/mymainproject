@@ -2,13 +2,20 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Notification(models.Model):
+    TO_CHOICES = [
+        ('Admin', 'Admin'),
+        ('VolunteerHead', 'Volunteer Head'),
+        ('CampHead', 'Camp Head'),
+        ('Volunteer', 'Volunteer'),
+    ]
 
     PRIORITY_CHOICES = [
         ('High', 'High'),
         ('Normal', 'Normal'),
     ]
 
-    to = models.CharField(max_length=20)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    to = models.CharField(max_length=20, choices=TO_CHOICES)
     subject = models.CharField(max_length=255)
     message = models.TextField()
     priority = models.CharField(max_length=10, choices=PRIORITY_CHOICES)
@@ -16,3 +23,5 @@ class Notification(models.Model):
     close_notification = models.BooleanField(default=False)
     expiration_date = models.DateField(null=True, blank=True)
 
+    def __str__(self):
+        return self.subject

@@ -1,87 +1,116 @@
-{% load static %}
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" href="{% static 'css/en.css' %}">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Include jQuery -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .custom-table th {
+            background-color: #2f5d8b;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        .custom-table td {
+            vertical-align: middle;
+        }
+
+        .custom-badge-open {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .custom-badge-closed {
+            background-color: #6c757d;
+            color: white;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Edit Notifications</h2>
-        <table class="notification-list">
+    <div class="container mt-5">
+        <h2 class="mb-4">Notifications</h2>
+
+        <!-- Success/Error Messages -->
+        {% if messages %}
+            <div class="mb-3">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!-- Notifications Table -->
+        <table class="table table-striped table-bordered table-hover custom-table">
             <thead>
                 <tr>
-                    <th>Date</th>
                     <th>To</th>
                     <th>Subject</th>
-                    <th>Priority</th>
-                    <th>Closed</th>
-                    <th>Close Notification</th>
-                    <th>Delete Notification</th>
+                    <th>Message</th>
+                    <th>Status</th>
+                    <th>Closed Date</th>
+                    <th>Actions</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
                 {% for notification in notifications %}
                 <tr>
-                    <td>{{ notification.publish_date }}</td>
                     <td>{{ notification.to }}</td>
                     <td>{{ notification.subject }}</td>
-                    <td>{{ notification.priority }}</td>
+                    <td>{{ notification.message }}</td>
                     <td>
                         {% if notification.close_notification %}
-                        YES <!-- If notification is closed -->
+                            <span class="badge custom-badge-closed">Closed</span>
                         {% else %}
-                        NO  <!-- If notification is not closed -->
+                            <span class="badge custom-badge-open">Open</span>
                         {% endif %}
                     </td>
                     <td>
+                        {% if notification.close_notification %}
+                            {{ notification.expiration_date }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>
+                        <!-- Close Notification Form -->
                         {% if not notification.close_notification %}
-                        <a href="{% url 'close_notification' notification.id %}" class="btn btn-close">Close</a>
+                            <!-- Form to Close Notification -->
+                            <form action="{% url 'close_notification' %}" method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="notification_id" value="{{ notification.id }}">
+                                <button type="submit" class="btn btn-link">Close</button>
+                            </form>
                         {% else %}
-                        Closed on {{ notification.expiration_date }}
+                            <span class="text-muted">Closed</span>
                         {% endif %}
                     </td>
                     <td>
-                        <form action="{% url 'close_notification' notification.id %}" method="post" style="display: inline;">
+                        <!-- Delete Notification Form -->
+                        <form action="{% url 'delete_notification' %}" method="post" style="display: inline;">
                             {% csrf_token %}
-                            <input type="hidden" name="delete" value="true">  <!-- Hidden field to trigger delete action -->
-                            <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this notification?');">Delete</button>
+                            <input type="hidden" name="notification_id" value="{{ notification.id }}">
+                            <button type="submit" class="btn btn-link text-danger" onclick="return confirm('Are you sure you want to delete this notification?');">Delete</button>
                         </form>
                     </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center">No notifications available.</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+
+        <!-- Footer Links -->
         <div class="footer-links">
-            <a href="{% url 'front' %}">Back to Dashboard</a>
+            <a href="{% url 'publish_notification' %}">Back to Dashboard</a>
         </div>
     </div>
 
-    <script>
-        function fetchNotifications() {
-            $.ajax({
-                url: "{% url 'publish_notification' %}",
-                method: "GET",
-                success: function(data) {
-                    var tbody = $('#notification-body');
-                    tbody.empty(); // Clear the existing notifications
-                    $.each(data, function(index, notification) {
-                        var closedText = notification.close_notification ? "YES" : "NO";
-                        tbody.append(
-                            '<tr>' +
-                                '<td>' + notification.publish_date + '</td>' +
-                                '<td>' + notification.subject + '</td>' +
-                                '<td>' + closedText + '</td>' +
-                                '<td>' + notification.expiration_date + '</td>' +
-                            '</tr>'
-                        );
-                    });
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error fetching notifications:", error);
-                }
-            });
-        }
-
-        // Fetch notifications every 5 seconds
-        setInterval(fetchNotifications, 5000);
-    </script>
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+</html>

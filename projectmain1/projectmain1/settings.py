@@ -87,12 +87,11 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # Do not expire sessions when browser c
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME':'project',
+        'NAME': 'post',
         'HOST':'localhost',
         'PORT':'5432',
         'USER':'postgres',
-        'PASSWORD':'12345'
-
+        'PASSWORD':'shahin@123'
     }
 }
 

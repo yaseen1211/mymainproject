@@ -23,6 +23,7 @@ from volunteerhead import views as volunteerhead_views
 from Users import views as Users_views
 from login import views as login_views
 from notification import views as notification_views
+from django.urls import include, path
 
 
 urlpatterns = [
@@ -51,7 +52,7 @@ urlpatterns = [
     path('Users/'                  , Users_views.Users                        , name='Users'),
 
 
-    path('notification/'                  , notification_views.notification                        , name='notification'),
+    path('notifications/', include('notification.urls')),
 
 
 
