@@ -32,23 +32,34 @@ def publish_notification(request):
 @login_required
 def notification_detail(request, notification_id=None):
     user = request.user
-    role = (
-        "Admin" if user.is_staff else
-        user.groups.first().name if user.groups.exists() else "Volunteer"
-    )
+
+    # Get role from query parameter (if exists) or determine based on logged-in user
+    role = request.GET.get("type")  # Get role from URL query parameter
+
+    if not role:  # If no type is provided in the URL, use the user's role
+        if user.is_superuser:
+            role = "Admin"
+        elif user.groups.filter(name="VolunteerHead").exists():
+            role = "VolunteerHead"
+        elif user.groups.filter(name="CampHead").exists():
+            role = "CampHead"
+        else:
+            role = "Volunteer"
 
     if notification_id:
-        # Fetch and show the detail of a specific notification
+        # Fetch and show details of a specific notification
         notification = get_object_or_404(Notification, id=notification_id)
+
+        # Ensure the user is only accessing their allowed notifications
+        if notification.to != role:
+            messages.error(request, "You are not authorized to view this notification.")
+            return redirect("notification_detail")
+
         return render(request, "notification_detail.html", {"notification": notification})
     else:
-        # Show a list of notifications based on user role
+        # Show only notifications meant for the selected role
         notifications = Notification.objects.filter(to=role)
-        return render(request, "notification_detail.html", {"notifications": notifications})
-
-
-
-
+        return render(request, "notification_detail.html", {"notifications": notifications, "role": role})
 
 
 @login_required

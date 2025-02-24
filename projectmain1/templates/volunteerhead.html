@@ -24,8 +24,8 @@
     <!-- {% include 'menu.html' %} -->
     <header>
         <h1>CampAid Supply Management System {{zone_name}}</h1>
-        <div style="margin-left: 714px;display: flex;">
-            <a href="{% url 'notification_detail' %}?type=superadmin" 
+        <div style="margin-left: 610px; display: flex; gap: 10px; align-items: center;">
+            <a href="{% url 'notification_detail' %}?type=VolunteerHead" 
                style="background-color: #007bff; 
                       color: white; 
                       padding: 6px 10px; 
@@ -37,7 +37,7 @@
                       text-align: center;">
                 💬
             </a>
-        </div>
+        </div> 
         <button><a href="{% url 'logout' %}" class="logout-button">Logout</a></button>
 
 
