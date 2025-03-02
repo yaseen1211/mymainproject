@@ -43,10 +43,18 @@ INSTALLED_APPS = [
     'camp',
     'Users',
     'notification',
+    'corsheaders',
    
 ]
+CORS_ALLOW_ALL_ORIGINS = True
+# Or allow specific origins
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:19006",  # Expo web
+#     "http://192.168.1.7:8081",  # Expo on your network
+# ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  # Add this at the top
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -87,14 +95,13 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # Do not expire sessions when browser c
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'post',
+        'NAME': 'project',
         'HOST':'localhost',
         'PORT':'5432',
         'USER':'postgres',
-        'PASSWORD':'shahin@123'
+        'PASSWORD':'12345'
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
