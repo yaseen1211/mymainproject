@@ -15,10 +15,11 @@ from django.core.mail import send_mail
 from django.contrib.auth.hashers import make_password
 from django.http import JsonResponse
 from django.views.decorators.cache import cache_control
+from django.views.decorators.cache import never_cache
 
 # Create your views here.
 
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@never_cache
 def login(request):
     if request.POST:
         username = request.POST['username']  # Getting username and password
@@ -27,7 +28,7 @@ def login(request):
 
         # Hardcoded superadmin credentials
         SUPERADMIN_USERNAME = "shahin"
-        SUPERADMIN_PASSWORD = "12345678"
+        SUPERADMIN_PASSWORD = "1"
 
         # Check if the provided credentials are for the superadmin
         if username == SUPERADMIN_USERNAME and password == SUPERADMIN_PASSWORD:
@@ -155,6 +156,7 @@ def volunteer1(request):
 
         return render(request, 'volunteers.html', {'camp_name': camp_name})
 
+@never_cache
 def logout_view(request):
     logout(request)
     response = redirect('login')
