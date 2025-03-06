@@ -6,7 +6,9 @@
     {% csrf_token %}
     {{ form.as_p }}  <!-- Display form fields -->
     <button type="submit" class="btn btn-primary">Publish</button>
-</form>
+    <p>
+    <a href="{% url 'notification_detail' %}">Back to Dashboard</a></p>
+</form> 
 
 <ul>
     {% for Notification in Notifications %}

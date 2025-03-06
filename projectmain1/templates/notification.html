@@ -19,25 +19,24 @@
                         <a class="nav-link" href="{% url 'publish_notification' %}">Publish Notification</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'view_notifications' %}">View All Notifications</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="{% url 'close_notification' %}">Close Notifications</a>
                     </li>
                     <div style="margin-left: 420px; display: flex;">
                         <!-- This link opens the notification list or details depending on the context -->
-                        <a class="nav-link" href="{% url 'notification_detail' %}" style="background-color: #007bff; 
-                                  color: white; 
-                                  padding: 12px 12px; 
-                                  width: 80px; /* or any desired width */
-                                  height: 50px;
-                                  border-radius: 6px; 
-                                  font-size: 18px; 
-                                  text-decoration: none; 
-                                  display: inline-block; 
-                                  text-align: center;">
-                            💬
-                        </a>
+                        <a href="{% url 'view_notifications' %}" 
+   style="background-color: #ffffff; 
+          color: rgb(0, 0, 0); 
+          padding: 6px 10px;
+          border-radius: 6px; 
+          font-size: 18px; 
+          text-decoration: none; 
+          display: inline-block; 
+          text-align: center; 
+          position: fixed; 
+          top: 10px; 
+          right: 10px;">
+    View All Notifications
+</a>
                     </div>                    
                 </ul>
             </div>

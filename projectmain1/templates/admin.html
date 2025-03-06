@@ -21,37 +21,24 @@
 <body>
     {% include 'message.html' %}
     <!-- {% include 'menu.html' %} -->
-        <header>
-            <h1>superadmin deshboard</h1>
-            <div style="margin-left: 610px; display: flex; gap: 10px; align-items: center;">
-                <!-- <a href="{% url 'notification_detail' %}?type=superadmin" 
-                style="background-color: #007bff; 
-                        color: white; 
-                        padding: 6px 10px; 
-                        width: 150px; 
-                        border-radius: 6px; 
-                        font-size: 18px; 
-                        text-decoration: none; 
-                        display: inline-block; 
-                        text-align: center;">
-                    💬
-                </a>
-                
-                <a href="{% url 'publish_notification' %}" 
-        style="background-color: #000000; 
-                color: white; 
-                padding: 6px 10px; 
-                border-radius: 6px; 
-                font-size: 18px; 
-                text-decoration: none; 
-                display: inline-block; 
-                text-align: center;">
-            Publish Notification
-        </a> -->
-            </div>        
-            <a href="{% url 'logout' %}" class="logout-button">Logout</a>
-
-        </header>
+    <header>
+        <h1>superadmin deshboard</h1>
+        <div style="margin-left: 610px; display: flex; gap: 10px; align-items: center;">
+            <a href="{% url 'notification_detail' %}?type=Admin" 
+               style="background-color: #007bff; 
+                      color: white; 
+                      padding: 6px 10px; 
+                      width: 150px; 
+                      border-radius: 6px; 
+                      font-size: 18px; 
+                      text-decoration: none; 
+                      display: inline-block; 
+                      text-align: center;">
+                💬
+        </a>
+        </div>        
+        <button><a href="{% url 'logout' %}" class="logout-button">Logout</a></button>
+    </header>
 
     <!-- Navigation to switch between sections -->
     <nav>
