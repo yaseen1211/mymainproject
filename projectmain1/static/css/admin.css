@@ -1,14 +1,13 @@
 body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #d3c4c4;
-    color: #0e0e0e;
+    background-color:#D5D3B9; /* Dark gray background */
+    font-family: Arial, sans-serif; /* Clean font */
     margin: 0;
     padding: 0;
 }
 header {
     display: flex;
     justify-content: space-between; /* Positions elements at opposite ends */
-    background-color: #4CAF50;
+    background-color: #202627;
     color: white;
     padding: 15px;
     position: sticky;
@@ -26,7 +25,7 @@ nav {
 nav button {
     padding: 10px 20px;
     margin: 5px;
-    background-color: #4CAF50;
+    background-color:#202627;
     color: white;
     border: none;
     border-radius: 5px;
@@ -34,7 +33,7 @@ nav button {
     transition: background-color 0.3s, transform 0.3s;
 }
 nav button:hover {
-    background-color: #45a049;
+    background-color: #202627   ;
     transform: scale(1.05);
 }
 section {
@@ -65,7 +64,7 @@ section {
 }
 .div1 button {
     padding: 12px;
-    background-color: #4CAF50;
+    background-color:#202627;
     color: white;
     border: none;
     border-radius: 5px;
@@ -73,7 +72,7 @@ section {
     transition: background-color 0.3s, transform 0.3s;
 }
 .div1 button:hover {
-    background-color: #45a049;
+    background-color:#202627 ;
     transform: scale(1.05);
 }
 ul {
@@ -118,7 +117,7 @@ ul li {
 }
 
 .styled-table thead tr {
-    background-color: #009879;
+    background-color: #4a6267;
     color: #ffffff;
     text-align: left;
     font-weight: bold;
@@ -146,7 +145,7 @@ ul li {
 }
 
 button {
-    background-color: #009879;
+    background-color: #4a6267;
     color: white;
     border: none;
     padding: 8px 12px;
@@ -158,3 +157,44 @@ button:hover {
 }
 
 
+.navbar .btn {
+    border: 1px solid black; /* Adds a black border */
+    background-color: white; /* White background */
+    color: black; /* Black text */
+    padding: 8px 16px; /* Adds padding */
+    border-radius: 6px; /* Rounded corners */
+    font-weight: bold; /* Makes text bold */
+    transition: all 0.3s ease-in-out; /* Smooth hover effect */
+}
+
+.navbar .btn:hover {
+    background-color: black; /* Black background on hover */
+    color: white; /* White text on hover */
+}
+/* body {
+            background-image: url("{% static 'image/re.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        } */
+        .logout-button {
+    background-color: #1b0305; /* Red color */
+    color: white;
+    padding: 8px 16px;
+    border: 1px solid #dc3545;
+    border-radius: 6px;
+    font-size: 16px;
+    text-decoration: none; /* Removes underline */
+    font-weight: bold;
+    display: inline-block;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.logout-button:hover {
+    background-color: white;
+    color: #dc3545;
+    text-decoration: none; /* Ensures no underline on hover */
+}
