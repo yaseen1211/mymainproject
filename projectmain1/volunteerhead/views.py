@@ -466,8 +466,6 @@ def volunteers(request):
 
 
 def register_volunteers(request):
-    if not hasattr(request.user, 'volunteerhead'):
-        return render(request, 'login.html', {'error': 'you are not Access'})
     
     token = request.GET.get('token')  # Get token from the URL query parameter
     

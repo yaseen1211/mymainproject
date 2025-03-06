@@ -14,7 +14,7 @@
 <body>
     <header>
     <h1>Supplyify</h1>
-    <button class="login"><a href="login.html">Login</a></button>
+    <button class="login"><a href="login">Login</a></button>
 <div class="col-3 col-md-4 mb-3 mb-md-0">
                 <form method="POST" action="{% url 'Users' %}" id="zone-form">
                     {% csrf_token %}
@@ -33,8 +33,8 @@
     </section>
 
     <nav>
-        <div>Our Cause</div>
-        <div>Upcoming Events</div>
+        <div>Stay Safe</div>
+        <div>Help the Wanted</div>
         <div>Become a Volunteer</div>
     </nav>
 
@@ -53,7 +53,7 @@
             <div class="footer-text">
                 <h1>Get Involved</h1>
                 <p>Support Those in Need</p>
-                <button>Contribute Now</button>
+                <button class="login"><a href="login">Login Now</a></button>
             </div>
             <div class="footer-image">
                 <img src="https://gdb.voanews.com/dabf7569-6b52-4683-a3fd-a24ecf0d483e_w1023_r1_s.jpg" alt="Footer Image" />
