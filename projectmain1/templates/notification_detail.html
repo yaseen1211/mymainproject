@@ -7,6 +7,21 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+    <a href="{% url 'publish_notification' %}" 
+   style="background-color: #000000; 
+          color: white; 
+          padding: 6px 10px;
+          border-radius: 6px; 
+          font-size: 18px; 
+          text-decoration: none; 
+          display: inline-block; 
+          text-align: center; 
+          position: fixed; 
+          top: 10px; 
+          right: 10px;">
+    Publish Notification
+</a>
+
     <div class="container mt-5">
         {% if notification %}
             <!-- Notification Details View -->
@@ -82,6 +97,7 @@
                 </tbody>
             </table>
         {% endif %}
+        <a href="{% url 'superadmin' %}">Back to Dashboard</a>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

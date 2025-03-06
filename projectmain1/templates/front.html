@@ -5,23 +5,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Load Bootstrap CSS first -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-    <!-- Load your custom CSS after Bootstrap for higher priority -->
+    <title>Supplyify</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/front.css' %}">
 
-    <title>FRMC</title>
 </head>
 
 <body>
-    <!-- First Page -->
-    <div class="first-page">
-        <!-- Header Section -->
-        <div class="header">
-            <!-- Zone Dropdown -->
-            <div class="col-3 col-md-4 mb-3 mb-md-0">
+    <header>
+    <h1>Supplyify</h1>
+    <button class="login"><a href="login.html">Login</a></button>
+<div class="col-3 col-md-4 mb-3 mb-md-0">
                 <form method="POST" action="{% url 'Users' %}" id="zone-form">
                     {% csrf_token %}
                     <select class="menu-dropdown form-control" name="zone" onchange="this.form.submit()">
@@ -32,29 +26,40 @@
                     </select>
                 </form>
             </div>
+</header>
 
-            <!-- Message Button -->
+    <section class="image-background">
+        <h1>Providing Food and Support for<br>Those in Need</h1>
+    </section>
 
-            <!-- Title -->
-            <div class="div1">
-                <div class="col-3 mb-3 mb-md-0">
-                    <h1 class="display-4">FRMC</h1>
-                </div>
+    <nav>
+        <div>Our Cause</div>
+        <div>Upcoming Events</div>
+        <div>Become a Volunteer</div>
+    </nav>
+
+    <main>
+        <h2>Latest Updates</h2>
+        <p>Check the Camps</p>
+        <p>Once posts are published, you'll see them There.</p>
+    </main>
+
+    <section>
+        <p>We believe in the power of compassion and support to make a positive impact on the lives of those affected by natural calamities. Together, we can bring hope and relief to those in need.</p>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-text">
+                <h1>Get Involved</h1>
+                <p>Support Those in Need</p>
+                <button>Contribute Now</button>
             </div>
-
-            <!-- Login Button -->
-            <div class="col-3 col-md-auto">
-                <a href="{% url 'login' %}">
-                    <button class="login-button btn btn-secondary">Login</button>
-                </a>
+            <div class="footer-image">
+                <img src="https://gdb.voanews.com/dabf7569-6b52-4683-a3fd-a24ecf0d483e_w1023_r1_s.jpg" alt="Footer Image" />
             </div>
         </div>
-    </div>
-
-    <!-- Optional: Include Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </footer>
 </body>
 
 </html>
