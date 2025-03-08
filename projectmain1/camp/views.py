@@ -17,20 +17,23 @@ from django.views.decorators.cache import cache_control
 def Volunteer(request):
     if not hasattr(request.user, 'camp_head'):
         return render(request, 'login.html', {'error': 'you are not Access'})
-    
     signer = Signer()
     signed_value = request.COOKIES.get('login')
     camp_id = signer.unsign(signed_value)
     
+    
     camp3 = Camp.objects.get(id=camp_id)
+    
 
     
 
         
-
+    print("4")
     if request.method == "POST" and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        print("5")
         data = json.loads(request.body)
         mode = data.get('mode')
+        print(data)
         
         if mode=="1":    # Handle product editing
             try:
@@ -54,6 +57,7 @@ def Volunteer(request):
 
 
         elif mode == "2": #add a new product
+                print("2")
         
                 product_Name = data.get('item-name')
                 product_Category_id = data.get('item-category')
@@ -112,6 +116,114 @@ def Volunteer(request):
 
   
 
+    categories  = Category.objects.all()
+    campname  = camp3.name         
+    return render(request, 'Volunteer.html', {'categories':categories,'campname':campname})
+
+def category_list(request):
+    categories = list(Category.objects.values("id", "name"))  # Convert queryset to list of dictionaries
+    return JsonResponse({"categories": categories})
+
+@csrf_exempt
+def Volunteer12(request):
+  
+    if request.method == "POST":
+    
+        data = json.loads(request.body)
+       
+        camp_id =data.get('campId')
+        
+    
+    
+        camp3 = Camp.objects.get(id=camp_id)
+
+        mode = data.get('mode')
+        
+        
+        if mode=="1":    # Handle product editing
+            try:
+                product_id = data.get('product_id')
+                ins = product.objects.get(pk=product_id)
+                quantity = data.get('quantity')
+                limit = data.get('tempLimit')
+                print(quantity)
+
+                ins.product_Quantity = quantity
+                ins.product_Limit = limit
+                ins.save()
+
+                return JsonResponse({
+                    'new_quantity': quantity,
+                    'new_limit': limit,
+                   })
+
+            except product.DoesNotExist:
+                return JsonResponse({'error': 'Product not found'})
+
+
+        elif mode == "2": #add a new product
+                
+        
+                product_Name = data.get('itemName')
+                product_Category_id = data.get('categoryId')
+                product_Quantity = data.get('itemQuantity')
+                product_unit = data.get('itemUnit')
+                product_Limit = data.get('itemLimit')
+
+        
+
+                product_Category = Category.objects.get(id=product_Category_id)
+              
+                products = product(
+                    product_Name=product_Name, 
+                    product_Category=product_Category, 
+                    product_Quantity=product_Quantity, 
+                    product_unit=product_unit, 
+                    product_Limit=product_Limit, 
+                
+                    camp1=camp3
+                )
+                products.save()
+                      
+                return JsonResponse({
+                    'message': 'Item added successfully!'
+                     })
+
+ 
+        elif mode == "3":
+                category_id =  data.get('categoryId')
+                product1_ = product.objects.filter(camp1=camp3, product_Category_id=category_id)
+                
+                product1_data = list(product1_.values('id', 'product_Name', 'product_Quantity', 'product_Limit','product_unit'))
+                return JsonResponse({
+                    'product1': product1_data,
+                        })
+        
+        elif mode=="4":
+
+            data = json.loads(request.body)
+            product_id = data.get('id')
+          
+            ins =product.objects.get(pk=product_id)
+            ins.delete()
+            return JsonResponse({'message': 'Item deleted successfully'}, status=200)
+        
+        elif mode=="5":
+
+            volunteers1 = camp3.camp2.all()
+
+                
+            Volunteers2 = list(volunteers1.values('id', 'name', 'email', 'phone'))
+            print("8")
+            print(Volunteers2)
+            return JsonResponse({
+                    'Volunteers2': Volunteers2,
+                        })
+
+  
+
     categories  = Category.objects.all()      
     return render(request, 'Volunteer.html', {'categories':categories})
+
+
 

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Volunteer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #3498db;
+            margin-bottom: 20px;
+            font-size: 32px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        label {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        button {
+            padding: 14px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+            outline: none;
+            transition: all 0.3s ease;
+            background-color: #f9f9f9;
+        }
+
+        /* Attractive input box styles */
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            box-sizing: border-box;
+            color: #333;
+        }
+
+        /* Add a subtle shadow and gradient border on focus */
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            border-color: #3498db; /* Blue border on focus */
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.5); /* Blue shadow on focus */
+            background-color: #fff; /* Light background on focus */
+            transform: scale(1.02); /* Slightly scale the input on focus */
+        }
+
+        /* Hover effect for inputs */
+        input[type="text"]:hover,
+        input[type="email"]:hover,
+        input[type="password"]:hover {
+            border-color: #3498db; /* Blue border on hover */
+            transform: scale(1.02); /* Slightly scale the input on hover */
+        }
+
+        /* Stylish Submit Button */
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #2980b9; /* Darker blue on hover */
+        }
+
+        /* Styling for the footer link */
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .form-footer a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>CampHead Registration</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Submit</button>
+        </form>
+
+        <div class="form-footer">
+            <p>Already have an account? <a href="#">Login here</a></p>
+        </div>
+    </div>
+
+</body>
+</html>

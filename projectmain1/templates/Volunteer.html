@@ -7,120 +7,207 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Item Management</title>
-    <link rel="stylesheet" href="{% static 'css/Volunteer.css' %}">
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'css/Volunteer.css' %}"> -->
     <link rel="stylesheet" href="{% static 'css/global.css' %}">
     <script src="{% static 'javascript/delete.js' %}"></script>
     <script src="{% static 'javascript/global.js' %}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        .pagination-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 10px;
+            background: linear-gradient(90deg, #ffffff, #010101);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+            border-radius: 8px;
+        }
+
+        .pagination-container span {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .pagination-container button {
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: #888;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .pagination-container button:not(:disabled):hover {
+            color: black;
+        }
+
+        .pagination-container button:disabled {
+            color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
 </head>
 
-<body>
+<body style="    margin-top: 95px">
+
+    <header>
+        <!-- Logo -->
+        <div class="logo">
+            <span>✨ Camp {{campname}}</span>
+        </div>
+
+        <!-- Navigation -->
+        <nav>
+            <a onclick="showSection('admin-dashboard')" class="nav-link">Manage Products</a>
+            <a onclick="showSection('supplier-portal')" class="nav-link">Manage Volunteers</a>
+        </nav>
+
+        <div class="notification-wrapper">
+            <button id="notification-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+                    <path
+                        d="M16 2C8.28 2 2 7.8 2 14.93a12.144 12.144 0 001.696 6.15l-1.668 7.51A1.16 1.16 0 003.63 29.9l6.914-3.072A14.835 14.835 0 0016 27.861c7.72 0 14-5.8 14-12.93S23.72 2 16 2zm4.508 16.32h-9.016a1.16 1.16 0 010-2.32h9.016a1.16 1.16 0 010 2.32zm0-4.638h-9.016a1.16 1.16 0 010-2.318h9.016a1.16 1.16 0 110 2.318z"
+                        fill="currentColor"></path>
+                </svg>
+            </button>
+        </div>
+
+
+        <!-- User and Button -->
+        <div class="user-section">
+            <a href="#">Log In</a>
+            <div class="user-icon">👤</div>
+            <a href="{% url 'logout' %}" style="color: white;" class="logout-button">Logout</a>
+        </div>
+    </header>
+
+    <script>
+        document.getElementById('notification-button').addEventListener('click', function () {
+            window.location.href = "{% url 'notification_detail' %}?type=Admin";
+        });
+    </script>
     <nav>
         <div style="display: flex; justify-content: space-between; align-items: center;">
             <!-- Left Side - Buttons -->
             <div class="center-buttons" style="display: flex; gap: 10px;padding-left: 425px;">
-                <button onclick="showSection('admin-dashboard')">Manage Products</button>
+                <!-- <button onclick="showSection('admin-dashboard')">Manage Products</button>
                 <button onclick="showSection('supplier-portal')">Manage Volunteers</button>
+            </div> -->
+
+                <!-- Center - Notification Button -->
+
+
+
+
             </div>
-        
-            <!-- Center - Notification Button -->
-            <div style="padding-left: 430px;gap: 10px;">
-                <a href="{% url 'notification_detail' %}?type=CampHead" 
-               style="background-color: #007bff; 
-                      color: white; 
-                      padding: 6px 10px; 
-                      width: 150px; 
-                      border-radius: 6px; 
-                      font-size: 18px; 
-                      text-decoration: none; 
-                      display: inline-block; 
-                      text-align: center;">
-                💬
-            </a>
-            </div>
-        
-            <!-- Right Side - Logout Button -->
-            <div>
-                <a href="{% url 'logout' %}" class="logout-button" style="background-color: #dc3545; 
-                          color: white; 
-                          padding: 6px 9px; 
-                          border-radius: 5px; 
-                          font-size: 16px; 
-                          text-decoration: none; 
-                          display: inline-block; 
-                          text-align: center;">
-                    Logout
-                </a>
-            </div>
-        </div>
     </nav>
     <section id="admin-dashboard" style="display: block;">
 
         {% include 'message.html' %}
         <h1>Item Management System</h1>
-        <div class="container">
-            <div class="form-container">
-                <h2>Add Item</h2>
-                <!-- <form id="add-item-form"> -->
+        <!-- <div class="container"> -->
+        <div class="div1">
+            <h2>Add Item</h2>
+            <!-- <form id="add-item-form"> -->
 
-                <label>Item Name:</label>
-                <input type="text" id="item-name" name="item-name" required>
+            <label>Item Name:</label>
+            <input type="text" id="item-name" placeholder="Enter item-name" name="item-name" required>
 
-                <div class="flex-container">
-                    <div>
-                        <label for="item-category">Category:</label>
-                        <select id="item-category" name="item-category" required>
-                            {% for category in categories %}
-                            <option value="{{ category.id }}">{{ category.name }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div>
-                        <label for="item-unit">Unit:</label>
-                        <input type="text" id="item-unit" name="item-unit" required>
-                    </div>
-                </div>
-
-                <label>Available Quantity:</label>
-                <input type="number" id="item-quantity" name="item-quantity" required min="1">
-
-                <label for="item-limit">Max Quantity:</label>
-                <input type="number" id="item-limit" name="item-limit" required min="1">
-                <!-- <input type="text" id="category" name="category"> -->
-
-                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-
-                <button name="new_submit" id="AddItem" onclick="AddItem()">Add Item</button>
-
-
-            </div>
-
-
-
-            <div class="item-list-container" id="item-list">
-                <h2>Item List</h2>
-                <div>
+            <div style="display: flex; gap: 20px; align-items: center;">
+                <div style="display: flex; flex-direction: column;">
                     <label for="item-category">Category:</label>
-                    <select id="fillter-category" name="fillter-category" required onchange="fetchProductUpdates()">
+                    <select id="item-category" name="item-category" required
+                        style="padding: 12px; border: 1px solid #ccc; border-radius: 5px; width: 580px;">
+                        <option value="">Select a category</option>
                         {% for category in categories %}
                         <option value="{{ category.id }}">{{ category.name }}</option>
                         {% endfor %}
                     </select>
                 </div>
-                <table id="item-list">
-                    <thead>
-                        <tr>
-                            <th>.No</th>
-                            <th>Name</th>
-                            <th>Available Quantity (Unit)</th>
-                            <th>Max Quantity (Unit)</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="item-list1">
-                        <!-- all items insert this p-->
-                    </tbody>
-                </table>
+
+                <div style="display: flex; flex-direction: column;">
+                    <label for="item-unit">Unit:</label>
+                    <input type="text" id="item-unit" placeholder="Enter item-unit" name="item-unit" required
+                        style="padding: 12px; border: 1px solid #ccc; border-radius: 5px; width: 583px;">
+                </div>
             </div>
+
+
+            <label>Available Quantity:</label>
+            <input type="number" id="item-quantity" placeholder="Enter item-quantity" name="item-quantity" required
+                min="1">
+
+            <label for="item-limit">Max Quantity:</label>
+            <input type="number" id="item-limit" placeholder="Enter item-limit" name="item-limit" required min="1">
+            <!-- <input type="text" id="category" name="category"> -->
+
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+            <button name="new_submit" id="AddItem" onclick="AddItem()">Add Item</button>
+
+
+        </div>
+
+
+
+        <div class="item-list-container" id="item-list">
+            <h2>Item List</h2>
+            <div style="display: flex; gap: 20px; align-items: center;">
+                <!-- Category Dropdown -->
+                <div style="display: flex; flex-direction: column;">
+                    <label for="fillter-category">Category:</label>
+                    <select id="fillter-category" name="fillter-category" required onchange="fetchProductUpdates()"
+                        style="padding: 12px; border: 1px solid #ccc; border-radius: 5px; width: 580px;">
+                        <option value="">Select a category</option>
+                        {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Search Box -->
+                <div style="display: flex; flex-direction: column;">
+                    <label for="searchBox">Search:</label>
+                    <input type="text" id="searchBox" placeholder="Search products..." oninput="searchProducts()"
+                        style="padding: 12px; border: 1px solid #ccc; border-radius: 5px; width: 583px;">
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+            <table class="styled-table" id="item-list">
+                <thead>
+                    <tr>
+                        <th>.No</th>
+                        <th>Name</th>
+                        <th>Available Quantity (Unit)</th>
+                        <th>Max Quantity (Unit)</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="item-list1">
+                    <!-- all items insert this p-->
+                </tbody>
+            </table>
+            <div class="pagination-container">
+                <span id="pageInfo">1 of 2</span>
+                <button id="prevPage" disabled>
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button id="nextPage">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
     </section>
     <section id="supplier-portal" style="display: none;">
         <h2>volunteers</h2>
@@ -162,7 +249,7 @@
         // Call fetchProductUpdates every 5 seconds
         // setInterval(fetchProductUpdates, 1000);
         function sendRequest(data, successCallback, errorCallback) {
-            const url = `/Volunteer/`;
+            const url = `/CampHead/`;
             const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
             const options = {
@@ -197,57 +284,101 @@
         };
 
 
+        let currentPage = 1;
+        const itemsPerPage = 10;
+        let allProducts = [];
+        let filteredProducts = [];  // Store filtered products
 
         function fetchProductUpdates() {
-            const selectedCategoryId = document.getElementById('fillter-category').value; // Get selected category ID
+            const selectedCategoryId = document.getElementById('fillter-category').value;
             const data = {
                 'category_id': selectedCategoryId,
-                'mode': '3' // Example additional parameter
+                'mode': '3'
             };
 
             sendRequest(
-                data,           // Data to send
-                function (data) { // Success callback
-                    const tableBody = document.querySelector('#item-list tbody');
-                    tableBody.innerHTML = ''; // Clear the table
-
-                    data.product1.forEach(product => {
-                        const newRow = document.createElement('tr');
-                        newRow.id = `productRow_${product.id}`;
-                        newRow.innerHTML = `
-                    <td></td>
-                    <td id="product_Name_${product.id}">${product.product_Name}</td>
-                    <td>
-                        <span class="quantity-display" id="quantityDisplay_${product.id}">${product.product_Quantity}</span>
-                        <input type="number" id="quantityInput_${product.id}" name="item-quantity1" class="quantity-input" style="display:none;" value="${product.product_Quantity}">${product.product_unit}
-                    </td>
-                    <td>
-                        <span class="limit-display" id="limitDisplay_${product.id}">${product.product_Limit}</span>
-                        <input type="number" id="limitInput_${product.id}" name="item-limit1" class="limit-input" style="display:none;" value="${product.product_Limit}">${product.product_unit}
-                    </td>
-                    <td>
-                        <button id="editButton_${product.id}" onclick="toggleEditMode('${product.id}')">Edit</button>
-                        <button id="submitButton_${product.id}" style="display:none;" onclick="submitEdit('${product.id}')">Submit</button>
-                        <button id="deleteButton_${product.id}" onclick="deleteItem('${product.id}')">Delete</button>
-                    </td>
-                `;
-                        tableBody.appendChild(newRow);
-                        updateRowNumbers();
-
-                    });
+                data,
+                function (responseData) {
+                    allProducts = responseData.product1;
+                    filteredProducts = allProducts;  // Initialize filtered products
+                    currentPage = 1;
+                    displayProducts();
                 },
-                function (error) { // Error callback
+                function (error) {
                     console.error('Error fetching product updates:', error);
                 }
             );
         }
-        function updateRowNumbers() {
-            const rows = document.querySelectorAll('#item-list1 tr');
-            rows.forEach((row, index) => {
-                // Update the .No cell in each row (1-based index)
-                row.children[0].textContent = index + 1;
+
+        function displayProducts() {
+            const tableBody = document.querySelector('#item-list1');
+            tableBody.innerHTML = '';
+
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const productsToShow = filteredProducts.slice(start, end);
+
+            productsToShow.forEach((product, index) => {
+                const newRow = document.createElement('tr');
+                newRow.id = `productRow_${product.id}`;
+                newRow.innerHTML = `
+            <td>${start + index + 1}</td>
+            <td id="product_Name_${product.id}">${product.product_Name}</td>
+            <td>
+                <span class="quantity-display" id="quantityDisplay_${product.id}">${product.product_Quantity}</span>
+                <input type="number" id="quantityInput_${product.id}" name="item-quantity1" class="quantity-input" style="display:none;" value="${product.product_Quantity}">${product.product_unit}
+            </td>
+            <td>
+                <span class="limit-display" id="limitDisplay_${product.id}">${product.product_Limit}</span>
+                <input type="number" id="limitInput_${product.id}" name="item-limit1" class="limit-input" style="display:none;" value="${product.product_Limit}">${product.product_unit}
+            </td>
+            <td>
+                <button id="editButton_${product.id}" onclick="toggleEditMode('${product.id}')">Edit</button>
+                <button id="submitButton_${product.id}" style="display:none;" onclick="submitEdit('${product.id}')">Submit</button>
+                <button id="deleteButton_${product.id}" onclick="deleteItem('${product.id}')">Delete</button>
+            </td>
+        `;
+                tableBody.appendChild(newRow);
             });
+
+            updatePaginationButtons();
         }
+
+        function searchProducts() {
+            const searchText = document.getElementById('searchBox').value.toLowerCase();
+
+            // Filter products based on search text
+            filteredProducts = allProducts.filter(product =>
+                product.product_Name.toLowerCase().includes(searchText)
+            );
+
+            currentPage = 1;  // Reset to first page after search
+            displayProducts();
+        }
+
+        function updatePaginationButtons() {
+            const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+            document.getElementById('prevPage').disabled = (currentPage === 1);
+            document.getElementById('nextPage').disabled = (currentPage === totalPages || filteredProducts.length === 0);
+            document.getElementById('pageInfo').textContent = `${currentPage} of ${totalPages}`;
+        }
+
+        function nextPage() {
+            if (currentPage * itemsPerPage < filteredProducts.length) {
+                currentPage++;
+                displayProducts();
+            }
+        }
+
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                displayProducts();
+            }
+        }
+
+        document.getElementById('prevPage').addEventListener('click', prevPage);
+        document.getElementById('nextPage').addEventListener('click', nextPage);
 
         function AddItem() {
             const itemName = document.getElementById('item-name').value;

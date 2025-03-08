@@ -5,7 +5,8 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="{% static 'css/Volunteerhead.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'css/Volunteerhead.css' %}"> -->
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
     <link rel="stylesheet" href="{% static 'css/global.css' %}">
     <script src="{% static 'javascript/global.js' %}"></script>
     <script src="{% static 'javascript/category.js' %}"></script>
@@ -16,42 +17,57 @@
     <title>CampAid Supply Management System</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
-
 </head>
 
 <body>
+
+           
+
+               
+        
     {% include 'message.html' %}
     <!-- {% include 'menu.html' %} -->
     <header>
-        <h1>CampAid Supply Management System {{zone_name}}</h1>
-        <div style="margin-left: 610px; display: flex; gap: 10px; align-items: center;">
-            <a href="{% url 'notification_detail' %}?type=VolunteerHead" 
-               style="background-color: #007bff; 
-                      color: white; 
-                      padding: 6px 10px; 
-                      width: 150px; 
-                      border-radius: 6px; 
-                      font-size: 18px; 
-                      text-decoration: none; 
-                      display: inline-block; 
-                      text-align: center;">
-                💬
-            </a>
-        </div> 
-        <button><a href="{% url 'logout' %}" class="logout-button">Logout</a></button>
-
-
+        <!-- Logo -->
+        <div>
+            <span>✨ {{ zone_name }}</span>
+        </div>
+    
+        <!-- Navigation -->
+        <nav>
+            <a onclick="showSection('admin-dashboard')" class="nav-link">Camphead</a>
+            <a onclick="showSection('volunteer-dashboard')" class="nav-link">Volunteers</a>
+            <a onclick="showSection('volunteer-interface')" class="nav-link">Manage Camp</a>
+            <a onclick="showSection('supplier-portal')" class="nav-link">Manage Volunteers</a>
+        </nav>
+    
+        <div class="notification-wrapper">
+            <button id="notification-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+                    <path d="M16 2C8.28 2 2 7.8 2 14.93a12.144 12.144 0 001.696 6.15l-1.668 7.51A1.16 1.16 0 003.63 29.9l6.914-3.072A14.835 14.835 0 0016 27.861c7.72 0 14-5.8 14-12.93S23.72 2 16 2zm4.508 16.32h-9.016a1.16 1.16 0 010-2.32h9.016a1.16 1.16 0 010 2.32zm0-4.638h-9.016a1.16 1.16 0 010-2.318h9.016a1.16 1.16 0 110 2.318z" fill="currentColor"></path>
+                </svg>
+            </button>
+        </div>
+    
+        <!-- User and Button -->
+        <div class="user-section">
+            <a href="#">Log In</a>
+            <div class="user-icon">👤</div>
+            <a href="{% url 'logout' %}" style="color: white;" class="logout-button">Logout</a>
+        </div>
     </header>
-
-    <!-- Navigation to switch between sections -->
-    <nav>
-        <button onclick="showSection('admin-dashboard')">Manage-volunteers_camp</button>
-        <button onclick="showSection('volunteer-dashboard')">Manage-Volunteers</button>
-        <button onclick="showSection('volunteer-interface')">add Manage camp</button>
-        <button onclick="showSection('supplier-portal')">Manage camp </button>
-
-    </nav>
-
+    
+    <script>
+        document.getElementById('notification-button').addEventListener('click', function() {
+            window.location.href = "{% url 'notification_detail' %}?type=VolunteerHead";
+        });
+    </script>
+<!-- <nav>
+    <button onclick="showSection('admin-dashboard')">Manage-volunteers_camp</button>
+    <button onclick="showSection('volunteer-dashboard')">Manage-Volunteers</button>
+    <button onclick="showSection('volunteer-interface')">add Manage camp</button>
+    <button onclick="showSection('supplier-portal')">Manage camp </button>
+</nav> -->
     <!-- Admin Dashboard Section -->
     <section id="admin-dashboard" style="display: block;">
         <h2>Camp-head</h2>
@@ -71,7 +87,7 @@
                 <input type="number" id="Camp-head phone" placeholder="Camp-head phone" name="Camp-head phone" required
                     minlength="8">
 
-                <button name="Add_Camp_head" onclick="Add_Camp_head()">Register Camp-head</button>
+                <button name="Add_Camp_head" style="background-color: #4a6267;" onclick="Add_Camp_head()">Register Camp-head</button>
             </div>
 
             <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -262,7 +278,7 @@
     </script>
     <script>
         function sendRequest(data, successCallback, errorCallback) {
-            const url = `/Camp__head/`;
+            const url = `/VolunteerHead/`;
             const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
             const options = {

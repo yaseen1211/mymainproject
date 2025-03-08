@@ -1,0 +1,109 @@
+/* General styles for the body */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f7f9fc;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+/* Container for forms */
+.form-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Form structure */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.form-group {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.form-label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+    text-align: left;
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+.form-input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Button styling */
+.form-button {
+    background-color: #007bff;
+    color: #ffffff;
+    font-size: 16px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    width: 100%;
+}
+
+.form-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+/* Error container styling */
+#error-container {
+    position: absolute; /* Ensure it's positioned within the flow */
+    top: 0; /* Start at the top */
+    margin-top: 20px; /* Spacing from the top of the page */
+    margin-bottom: 20px; /* Space below the error container */
+    text-align: center; /* Center the text */
+    padding: 10px; /* Add padding for better readability */
+    border-radius: 4px; /* Rounded corners for aesthetics */
+    font-size: 16px; /* Larger text for emphasis */
+    color: #ff4d4d; /* Red text color */
+}
+
+/* Error text styling */
+.error-text {
+    margin: 0; /* Remove default paragraph margins */
+    font-weight: bold; /* Emphasize the text */
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .form-container {
+        padding: 15px;
+    }
+
+    .form-input,
+    .form-button {
+        font-size: 14px;
+        padding: 8px;
+    }
+}
