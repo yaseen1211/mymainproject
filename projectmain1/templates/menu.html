@@ -1,21 +1,6 @@
-
-
-
-
-
-
-
-
-
-
-
-
-<button><a href="{% url 'login' %}">login</a></button>
-<button><a href="{% url 'superadmin' %}">admin</a></button>
-<button><a href="{% url 'Camp__head' %}">zone</a></button>
-<button><a href="{% url 'Volunteer' %}">Volunteer</a></button>
-
-
-
-
-
+<li class="nav-item">
+    {<a class="nav-link custom-link" href="{% url 'close_notification' %}"">Close Notifications</a>}
+</li>
+<li class="nav-item">
+    {<a class="nav-link custom-link" href="{% url 'view_notifications' %}"">Closed Notifications</a>}
+</li>

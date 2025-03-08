@@ -15,9 +15,11 @@ from django.core.mail import send_mail
 from django.contrib.auth.hashers import make_password
 from django.http import JsonResponse
 from django.views.decorators.cache import cache_control
+from django.views.decorators.cache import never_cache
+
 # Create your views here.
 
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@never_cache
 def login(request):
     if request.POST:
         username = request.POST['username']  # Getting username and password
@@ -26,7 +28,7 @@ def login(request):
 
         # Hardcoded superadmin credentials
         SUPERADMIN_USERNAME = "shahin"
-        SUPERADMIN_PASSWORD = "12345678"
+        SUPERADMIN_PASSWORD = "1"
 
         # Check if the provided credentials are for the superadmin
         if username == SUPERADMIN_USERNAME and password == SUPERADMIN_PASSWORD:
@@ -107,7 +109,27 @@ def login(request):
                     return render(request, 'login.html', {'error': 'This volunteer is not assigned to any Zone'})
 
             elif hasattr(user, 'volunteer'):
-                return render(request, 'login.html', {'error': 'This volunteer does not have access to any interface'})
+                assigned_camp = user.volunteer.camp1
+
+                if assigned_camp:  # Check if the volunteer is assigned a camp
+
+                    # If the camp is active, proceed with login
+                    camp_id = assigned_camp.id
+                    signer = Signer()
+                    signed_value = signer.sign(camp_id)
+
+                    # Redirect to CampHead dashboard
+                    response = redirect('volunteer1')
+                    response.set_cookie(
+                        'login',  # Cookie name
+                        signed_value,  # Encrypted cookie value
+                        httponly=True  # Prevent JavaScript access
+                    )
+                    return response
+                else:
+                    return render(request, 'volunteers.html', {
+                        'error': 'your not assigned to a camp. Please contact the administrator.'
+                    })
 
             else:
                 return redirect('superadmin')
@@ -134,6 +156,7 @@ def volunteer1(request):
 
         return render(request, 'volunteers.html', {'camp_name': camp_name})
 
+@never_cache
 def logout_view(request):
     logout(request)
     response = redirect('login')
@@ -200,4 +223,52 @@ def verify_otp(request):
     return render(request, 'forget.html')
 
 
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import authenticate, login as auth_login
+from django.core.signing import Signer
+import json
 
+@csrf_exempt
+def login1(request):
+    if request.method == 'POST':
+        try:
+            # Parse JSON data from the request body
+            data = json.loads(request.body)
+            print("1")
+            print(data)
+            username = data.get('username')
+            password = data.get('password')
+            remember_me = data.get('remember_me', False)
+
+            # Authenticate the user
+            user = authenticate(username=username, password=password)
+
+            if user and hasattr(user, 'camp_head'):  # Only allow camp_head users
+                # Get the first camp associated with the camp head
+                camp_head2_first = user.camp_head.campHead2.first()
+
+                if camp_head2_first:
+                    if not camp_head2_first.is_active:
+                        return JsonResponse({
+                            "error": "This volunteer is assigned to a deactivated camp. Please contact the administrator."
+                        }, status=400)
+
+                    camp_id = camp_head2_first.id
+                    print(camp_id)
+                    return JsonResponse({
+                        "message": "Login successful",
+                        "redirect": "Volunteer",
+                        "camp_id": camp_id
+                    })
+                else:
+                    return JsonResponse({
+                        "error": "This volunteer is not assigned to any camp."
+                    }, status=400)
+            else:
+                return JsonResponse({
+                    "error": "Invalid username or password, or you do not have permission to log in."
+                }, status=400)
+
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)

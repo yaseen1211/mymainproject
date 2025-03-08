@@ -59,10 +59,5 @@ urlpatterns = [
 
 
 
-
-    # path('forget1/<pk>'      ,views.forget1              ,name='forget1'),
-
-    
-
 ]
 
