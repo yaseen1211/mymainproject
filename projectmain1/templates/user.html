@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Camp Products</title>
-    <link rel="stylesheet" href="{% static 'css/user.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'css/user.css' %}"> -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
@@ -39,6 +39,7 @@
         tbody tr:nth-child(even) {
             background-color: #f3f4f6;
         }
+
         tbody tr:nth-child(odd) {
             background-color: #ffffff;
         }
@@ -53,42 +54,44 @@
             font-style: italic;
             color: gray;
         }
+
         .pagination-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    padding: 10px;
-    background: linear-gradient(90deg, #ffffff, #00d4ff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 10px;
+            background: linear-gradient(90deg, #ffffff, #d7dbdb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
 
-    border-radius: 8px;
-}
+            border-radius: 8px;
+        }
 
-.pagination-container span {
-    font-size: 14px;
-    color: #666;
-}
+        .pagination-container span {
+            font-size: 14px;
+            color: #ffffff;
+        }
 
-.pagination-container button {
-    background: none;
-    border: none;
-    font-size: 18px;
-    color: #888;
-    cursor: pointer;
-    transition: color 0.3s;
-}
+        .pagination-container button {
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: #888;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
 
-.pagination-container button:not(:disabled):hover {
-    color: black;
-}
+        .pagination-container button:not(:disabled):hover {
+            color: black;
+        }
 
-.pagination-container button:disabled {
-    color: #ccc;
-    cursor: not-allowed;
-}
-body {
+        .pagination-container button:disabled {
+            color: #ccc;
+            cursor: not-allowed;
+        }
+
+        body {
             background-image: url("{% static 'image/re.jpg' %}");
             background-size: cover;
             background-position: center;
@@ -97,11 +100,10 @@ body {
             margin: 0;
             font-family: Arial, sans-serif;
         }
-        
     </style>
 </head>
 
-<body class="">
+<body>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container px-5">
@@ -154,7 +156,7 @@ body {
         <!-- Camp Name and Products Heading -->
         <div class="row justify-content-between align-items-center mb-3">
             <div class="col-12 col-md-6 text-md-end">
-                <h2 class="text-light fw-bold">Camp Products</h2>
+                <h2 class="text-light fw-bold">Camp</h2>
             </div>
             <div class="col-12 col-md-6">
                 <h2 id="campname" class="text-light fw-bold"></h2>
@@ -166,15 +168,27 @@ body {
         <div class="container mt-4">
             <!-- Dropdown and Table Section -->
             <div class="table-responsive">
-                <!-- Dropdown for Category Filter -->
-                <label for="fillter-category" class="text-light fw-bold text-center">Filter by Category:</label>
-                <select id="fillter-category" name="fillter-category" class="form-select w-50 mb-3"
-                    onchange="fetchProductUpdates()">
-                    <option value="" disabled selected >Select a category</option>
-                    {% for category in categories %}
-                    <option value="{{ category.id }}">{{ category.name }}</option>
-                    {% endfor %}
-                </select>
+                <!-- Category Filter & Search Box in One Row -->
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <!-- Category Dropdown -->
+                    <div class="d-flex flex-column">
+                        <label for="fillter-category" class="text-light fw-bold">Filter by Category:</label>
+                        <select id="fillter-category" name="fillter-category" class="form-select" style="width: 250px;"
+                            onchange="fetchProductUpdates()">
+                            <option value="" disabled selected>Select a category</option>
+                            {% for category in categories %}
+                            <option value="{{ category.id }}">{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Search Box -->
+                    <div class="d-flex flex-column">
+                        <label for="searchBox" class="text-light fw-bold">Search:</label>
+                        <input type="text" id="searchBox" class="form-control" style="width: 250px;"
+                            placeholder="Search products..." oninput="searchProducts()">
+                    </div>
+                </div>
 
                 <!-- Table for Item List -->
                 <table class="table table-hover align-middle" id="item-list">
@@ -182,8 +196,8 @@ body {
                         <tr>
                             <th>#</th>
                             <th>Name</th>
-                            <th>Available Quantity (unit)</th>
-                            <th>Max Quantity (unit)</th>
+                            <th>Available Quantity (Unit)</th>
+                            <th>Max Quantity (Unit)</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -192,6 +206,9 @@ body {
                         </tr>
                     </tbody>
                 </table>
+
+                <!-- Pagination -->
+                <!-- Pagination (Centered) -->
                 <div class="pagination-container">
                     <span id="pageInfo">1 of 2</span>
                     <button id="prevPage" disabled>
@@ -204,114 +221,133 @@ body {
             </div>
         </div>
 
-    </div>
 
-    <!-- Bootstrap JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-    <script>
-        function sendRequest(data, successCallback, errorCallback) {
-            const url = `/Users/`;
-            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        <!-- Bootstrap JS Bundle -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        <script>
+            function sendRequest(data, successCallback, errorCallback) {
+                const url = `/Users/`;
+                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-            const options = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': csrfToken,
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-                body: JSON.stringify(data)
-            };
+                const options = {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken,
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: JSON.stringify(data)
+                };
 
-            fetch(url, options)
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    } else {
-                        throw new Error('Network response was not ok.');
+                fetch(url, options)
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            throw new Error('Network response was not ok.');
+                        }
+                    })
+                    .then(data => {
+                        successCallback(data); // Call the success callback with the response data
+                    })
+                    .catch(error => {
+                        errorCallback(error); // Call the error callback if there is an issue
+                    });
+            }
+
+            let allProducts = [];
+            let filteredProducts = [];  // Store filtered products for searching
+            let currentPage = 1;
+            const itemsPerPage = 10;
+
+            function fetchProductUpdates() {
+                const selectedCategoryId = document.getElementById('fillter-category').value;
+                const selectedcampId = document.getElementById('fillter-camp').value;
+                const data = {
+                    'category_id': selectedCategoryId,
+                    'selectedcampId': selectedcampId,
+                    'mode': '1'
+                };
+
+                sendRequest(
+                    data,
+                    function (responseData) {
+                        document.getElementById('campname').innerHTML = responseData.camp_name;
+                        allProducts = responseData.products;
+                        filteredProducts = allProducts;  // Initialize filtered products
+                        currentPage = 1;
+                        updateTable();
+                    },
+                    function (error) {
+                        console.error('Error fetching product updates:', error);
                     }
-                })
-                .then(data => {
-                    successCallback(data); // Call the success callback with the response data
-                })
-                .catch(error => {
-                    errorCallback(error); // Call the error callback if there is an issue
+                );
+            }
+
+            function updateTable() {
+                const tableBody = document.querySelector('#item-list tbody');
+                tableBody.innerHTML = '';
+
+                const startIndex = (currentPage - 1) * itemsPerPage;
+                const endIndex = startIndex + itemsPerPage;
+                const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
+
+                paginatedProducts.forEach((product, index) => {
+                    const newRow = document.createElement('tr');
+                    newRow.id = `productRow_${product.id}`;
+                    newRow.innerHTML = `
+            <td>${startIndex + index + 1}</td>
+            <td id="product_Name_${product.id}">${product.product_Name}</td>
+            <td>
+                <span class="quantity-display" id="quantityDisplay_${product.id}">${product.product_Quantity}${product.product_unit}</span>
+            </td>
+            <td>
+                <span class="limit-display" id="limitDisplay_${product.id}">${product.product_Limit}${product.product_unit}</span>
+            </td>
+        `;
+                    tableBody.appendChild(newRow);
                 });
-        }
 
-        let allProducts = [];
-        let currentPage = 1;
-        const itemsPerPage = 10;
+                updatePaginationButtons();
+            }
 
-        function fetchProductUpdates() {
-            const selectedCategoryId = document.getElementById('fillter-category').value;
-            const selectedcampId = document.getElementById('fillter-camp').value;
-            const data = {
-                'category_id': selectedCategoryId,
-                'selectedcampId': selectedcampId,
-                'mode': '1'
-            };
+            function searchProducts() {
+                const searchText = document.getElementById('searchBox').value.toLowerCase();
 
-            sendRequest(
-                data,
-                function (data) {
-                    document.getElementById('campname').innerHTML = data.camp_name;
-                    allProducts = data.products;
-                    currentPage = 1;
+                // Filter products based on search text
+                filteredProducts = allProducts.filter(product =>
+                    product.product_Name.toLowerCase().includes(searchText)
+                );
+
+                currentPage = 1;  // Reset to first page after search
+                updateTable();
+            }
+
+            function updatePaginationButtons() {
+                const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+                document.getElementById('prevPage').disabled = (currentPage === 1);
+                document.getElementById('nextPage').disabled = (currentPage === totalPages || filteredProducts.length === 0);
+                document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages}`;
+            }
+
+            document.getElementById('prevPage').addEventListener('click', function () {
+                if (currentPage > 1) {
+                    currentPage--;
                     updateTable();
-                },
-                function (error) {
-                    console.error('Error fetching product updates:', error);
                 }
-            );
-        }
-
-        function updateTable() {
-            const tableBody = document.querySelector('#item-list tbody');
-            tableBody.innerHTML = '';
-
-            const startIndex = (currentPage - 1) * itemsPerPage;
-            const endIndex = startIndex + itemsPerPage;
-            const paginatedProducts = allProducts.slice(startIndex, endIndex);
-
-            paginatedProducts.forEach((product, index) => {
-                const newRow = document.createElement('tr');
-                newRow.id = `productRow_${product.id}`;
-                newRow.innerHTML = `
-                <td>${startIndex + index + 1}</td>
-                <td id="product_Name_${product.id}">${product.product_Name}</td>
-                <td>
-                    <span class="quantity-display" id="quantityDisplay_${product.id}">${product.product_Quantity}${product.product_unit}</span>
-                </td>
-                <td>
-                    <span class="limit-display" id="limitDisplay_${product.id}">${product.product_Limit}${product.product_unit}</span>
-                </td>
-            `;
-                tableBody.appendChild(newRow);
             });
 
-            document.getElementById('pageInfo').innerText = `Page ${currentPage}`;
-            document.getElementById('prevPage').disabled = currentPage === 1;
-            document.getElementById('nextPage').disabled = endIndex >= allProducts.length;
-        }
-
-        document.getElementById('prevPage').addEventListener('click', function () {
-            if (currentPage > 1) {
-                currentPage--;
-                updateTable();
-            }
-        });
-
-        document.getElementById('nextPage').addEventListener('click', function () {
-            if (currentPage * itemsPerPage < allProducts.length) {
-                currentPage++;
-                updateTable();
-            }
-        });
+            document.getElementById('nextPage').addEventListener('click', function () {
+                if (currentPage * itemsPerPage < filteredProducts.length) {
+                    currentPage++;
+                    updateTable();
+                }
+            });
 
 
-    </script>
+
+        </script>
 
 </body>
 

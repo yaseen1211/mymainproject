@@ -159,7 +159,7 @@ def volunteer1(request):
 @never_cache
 def logout_view(request):
     logout(request)
-    response = redirect('login')
+    response = redirect('front')
     response.delete_cookie('login')
     
     return response 

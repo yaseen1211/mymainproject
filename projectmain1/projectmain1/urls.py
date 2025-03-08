@@ -34,7 +34,7 @@ urlpatterns = [
     path('logout/'                 , login_views.logout_view                  , name='logout'),
     path('forget/'                 , login_views.forget                       , name='forget'),
     path('verify-otp/'             , login_views.verify_otp                   , name='verify_otp'),
-    path('volunteer1/'             , login_views.volunteer1                   , name='volunteer1'),
+    path('Volunteer/'             , login_views.volunteer1                   , name='volunteer1'),
     path('login1/'                 , login_views.login1                       , name='login1'),
 
     path('superadmin/'             , superadmin_views.superadmin              , name='superadmin'),
@@ -45,10 +45,10 @@ urlpatterns = [
     path('register_volunteers/'    , volunteerhead_views.register_volunteers  , name='register_volunteers'),
     path('register_Camphead/'      , volunteerhead_views.register_Camphead    , name='register_Camphead'),
     path('volunteers/'             , volunteerhead_views.volunteers           , name='volunteers'),
-    path('Camp__head/'             , volunteerhead_views.Camp__head           , name='Camp__head'),
+    path('VolunteerHead/'             , volunteerhead_views.Camp__head           , name='Camp__head'),
     path('campmanage/'             , volunteerhead_views.campmanage           , name='campmanage'),
 
-    path('Volunteer/'              , Camp_views.Volunteer                     , name='Volunteer'),
+    path('CampHead/'              , Camp_views.Volunteer                     , name='Volunteer'),
     path('Volunteer12/'              , Camp_views.Volunteer12                     , name='Volunteer12'),
     path('category_list/'          , Camp_views.category_list                 , name='category_list'),
 

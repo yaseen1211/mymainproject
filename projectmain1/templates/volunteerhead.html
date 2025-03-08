@@ -16,88 +16,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CampAid Supply Management System</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-<style>        body {
-    background: linear-gradient(to right, #2a211c, #594c3e); /* Dark brown gradient */
-    margin: 0;
-    font-family: Arial, sans-serif;
-    .nav-link {
-        text-decoration: none;
-        color: #0d1d18;
-        font-weight: 500;
-        position: relative;
-        font-family: 'Poppins', sans-serif; /* Use a modern, link-style font */
-        transition: color 0.3s ease-in-out;
-    }
 
-    .nav-link::after {
-        content: "";
-        display: block;
-        width: 0;
-        height: 2px;
-        background: #0d1d18;
-        transition: width 0.3s ease-in-out;
-        position: absolute;
-        left: 0;
-        bottom: -2px;
-    }
-
-    .nav-link:hover {
-        color: #1a3a34;
-    }
-
-    .nav-link:hover::after {
-        width: 100%;
-    }
-}</style>
 </head>
 
 <body>
-            <!-- <div style="margin-left: 714px;display: flex;">
-            <a href="{% url 'notification_detail' %}?type=superadmin" 
-               style="background-color: #c2cbd5; 
-                      color: white; 
-                      padding: 6px 10px; 
-                      width: 150px; 
-                      border-radius: 6px; 
-                      font-size: 18px; 
-                      text-decoration: none; 
-                      display: inline-block; 
-                      text-align: center;">
-                💬
-            </a>
-                padding: 9px;
-    margin-left: 86px;
-    margin-right: 86px;
-    margin-top: 25px;
-    border-radius: 14px;
-        </div> -->
+
+           
+
+               
+        
     {% include 'message.html' %}
     <!-- {% include 'menu.html' %} -->
-    <header style="background-color: #fdfbee; padding: 16px 40px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);                padding: 9px;
-    margin-left: 86px;
-    margin-right: 86px;
-    margin-top: 25px;
-    border-radius: 14px;">
-    <!-- Logo -->
-    <div style="display: flex; align-items: center;">
-        <span style="font-size: 24px; font-weight: bold; color: #0d1d18;">✨ {{ zone_name }}</span>
-    </div>
-
-    <!-- Navigation -->
-    <nav style="display: flex; gap: 20px; font-family: 'Arial', sans-serif;">
-        <a href="#" onclick="showSection('admin-dashboard')" class="nav-link">Camphead</a>
-        <a href="#" onclick="showSection('volunteer-dashboard')" class="nav-link">Volunteers</a>
-        <a href="#" onclick="showSection('volunteer-interface')" class="nav-link">Manage Camp</a>
-        <a href="#" onclick="showSection('supplier-portal')" class="nav-link">Manage Volunteers</a>
-    </nav>
-
-    <!-- User and Button -->
-    <div style="display: flex; align-items: center; gap: 20px;">
-        <a href="#" style="text-decoration: none; color: #0d1d18; font-weight: 500;">Log In</a>
-        <div style="width: 32px; height: 32px; background-color: #0d1d18; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">👤</div>   
-            <a href="{% url 'logout' %}" class="logout-button">Logout</a>
-    </div>
-</header>
+    <header>
+        <!-- Logo -->
+        <div>
+            <span>✨ {{ zone_name }}</span>
+        </div>
+    
+        <!-- Navigation -->
+        <nav>
+            <a onclick="showSection('admin-dashboard')" class="nav-link">Camphead</a>
+            <a onclick="showSection('volunteer-dashboard')" class="nav-link">Volunteers</a>
+            <a onclick="showSection('volunteer-interface')" class="nav-link">Manage Camp</a>
+            <a onclick="showSection('supplier-portal')" class="nav-link">Manage Volunteers</a>
+        </nav>
+    
+        <div class="notification-wrapper">
+            <button id="notification-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+                    <path d="M16 2C8.28 2 2 7.8 2 14.93a12.144 12.144 0 001.696 6.15l-1.668 7.51A1.16 1.16 0 003.63 29.9l6.914-3.072A14.835 14.835 0 0016 27.861c7.72 0 14-5.8 14-12.93S23.72 2 16 2zm4.508 16.32h-9.016a1.16 1.16 0 010-2.32h9.016a1.16 1.16 0 010 2.32zm0-4.638h-9.016a1.16 1.16 0 010-2.318h9.016a1.16 1.16 0 110 2.318z" fill="currentColor"></path>
+                </svg>
+            </button>
+        </div>
+    
+        <!-- User and Button -->
+        <div class="user-section">
+            <a href="#">Log In</a>
+            <div class="user-icon">👤</div>
+            <a href="{% url 'logout' %}" style="color: white;" class="logout-button">Logout</a>
+        </div>
+    </header>
+    
+    <script>
+        document.getElementById('notification-button').addEventListener('click', function() {
+            window.location.href = "{% url 'notification_detail' %}?type=VolunteerHead";
+        });
+    </script>
 <!-- <nav>
     <button onclick="showSection('admin-dashboard')">Manage-volunteers_camp</button>
     <button onclick="showSection('volunteer-dashboard')">Manage-Volunteers</button>
@@ -314,7 +278,7 @@
     </script>
     <script>
         function sendRequest(data, successCallback, errorCallback) {
-            const url = `/Camp__head/`;
+            const url = `/VolunteerHead/`;
             const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
             const options = {

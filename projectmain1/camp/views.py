@@ -16,21 +16,21 @@ from django.views.decorators.cache import cache_control
 @csrf_exempt
 def Volunteer(request):
     if not hasattr(request.user, 'camp_head'):
-        print("3")
         return render(request, 'login.html', {'error': 'you are not Access'})
-    print("4")
     signer = Signer()
     signed_value = request.COOKIES.get('login')
     camp_id = signer.unsign(signed_value)
     
     
     camp3 = Camp.objects.get(id=camp_id)
+    
 
     
 
         
-
+    print("4")
     if request.method == "POST" and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        print("5")
         data = json.loads(request.body)
         mode = data.get('mode')
         print(data)
@@ -116,8 +116,9 @@ def Volunteer(request):
 
   
 
-    categories  = Category.objects.all()      
-    return render(request, 'Volunteer.html', {'categories':categories})
+    categories  = Category.objects.all()
+    campname  = camp3.name         
+    return render(request, 'Volunteer.html', {'categories':categories,'campname':campname})
 
 def category_list(request):
     categories = list(Category.objects.values("id", "name"))  # Convert queryset to list of dictionaries
@@ -125,11 +126,11 @@ def category_list(request):
 
 @csrf_exempt
 def Volunteer12(request):
-    print("1")
+  
     if request.method == "POST":
-        print("2")
+    
         data = json.loads(request.body)
-        print(data)
+       
         camp_id =data.get('campId')
         
     
@@ -161,7 +162,7 @@ def Volunteer12(request):
 
 
         elif mode == "2": #add a new product
-                print("2")
+                
         
                 product_Name = data.get('itemName')
                 product_Category_id = data.get('categoryId')
@@ -202,7 +203,7 @@ def Volunteer12(request):
 
             data = json.loads(request.body)
             product_id = data.get('id')
-            print("9")
+          
             ins =product.objects.get(pk=product_id)
             ins.delete()
             return JsonResponse({'message': 'Item deleted successfully'}, status=200)
@@ -213,6 +214,7 @@ def Volunteer12(request):
 
                 
             Volunteers2 = list(volunteers1.values('id', 'name', 'email', 'phone'))
+            print("8")
             print(Volunteers2)
             return JsonResponse({
                     'Volunteers2': Volunteers2,
