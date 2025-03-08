@@ -3,76 +3,71 @@ body {
   margin: 0;
   padding: 0;
   background-color: #f4f4f4;
+  padding-top: 80px; /* Prevent content from being hidden under the fixed header */  
 }
 
 header {
-  background-color: #000;
-  padding: 10px;
-  color: #fff;
-  text-align: center; /* Center the content */
-}
-
-header {
-background-color: #000;
-padding: 20px;
-color: #fff;
-display: flex; /* Use flexbox */
-justify-content: center; /* Center the title */
-position: relative; /* Position relative for absolute positioning of the button */
+  background-color: #fff;
+  padding: 20px;
+  color: #000;
+  text-align: left;
+  display: flex;
+  justify-content: left;
+  position: fixed; /* Fix the header at the top */
+  top: 0; /* Stick to the top */
+  left: 0;
+  width: 100%; /* Full width */
+  z-index: 1000; /* Ensure it stays above other elements */
 }
 
 header .login {
-position: absolute; /* Position the button absolutely */
-right: 20px; /* Move it to the right*/
-background-color: #333;
-color: #f5f5f5;
-padding: 11px 23px;
-border: none;
-border-radius: 20px;
-cursor: pointer;
-transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Transition for smooth effect */
+  position: absolute; /* Position the button absolutely */
+  right: 70px; /* Move it to the right */
+  background-color: #fff;
+  color: #000;
+  padding: 11px 23px;
+  border: 2px solid black;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold; /* Make the text bold */
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Transition for smooth effect */
 }
 
 header .login a {
-color: #f5f5f5;
+color: #000;
 text-decoration: none;
 }
 
 header .login:hover {
-background-color: #555;
+background-color: #363636;
 transform: scale(1.05); /* Scale up the image */
 box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Add shadow on hover */
 }
 
+header .login a:hover {
+  color: #f5f5f5;
+  text-decoration: none;
+  }
+
 header h1 {
 font-family: 'Montserrat', sans-serif;
-color: #fff;
+color: #000;
 margin: 0;
-font-size: 24px; /* Adjust font size as needed */
+font-size: 35px; /* Adjust font size as needed */
 }
 header .menu-dropdown {
+font-family: 'Montserrat', sans-serif;
 position: absolute; /* Position the button absolutely */
-left: 20px; /* Move it to the left*/
-background-color: #333;
-color: #f5f5f5;
-padding: 11px 23px;
-border: none;
-border-radius: 20px;
+right: 190px; /* Move it to the left*/
+background-color: #fff;
+color: #333;
+padding: 12px 77px;
+border: 2px solid black;  /* You can change 'black' to any color */
+border-radius: 2px;
 cursor: pointer;
+font-size: 16px;
 }
 
-section.image-background {
-  display: flex; /* Use flexbox */
-  flex-direction: column; /* Stack items vertically */
-  justify-content: flex-end; /* Align items to the bottom */
-  text-align: center;
-  padding: 50px;
-  background-image: url('https://cdn.dnaindia.com/sites/default/files/2018/08/20/720605-kerala-flood-pti.jpg?im=FitAndFill=(1200,900)');
-  height: 400px;
-  background-size: cover; /* Cover the entire section */
-  background-position: center; /* Center the image */
-  color: white; /* Change text color to white for better contrast */
-}
 
 section h1 {
   font-size: 36px;
@@ -82,7 +77,7 @@ section h1 {
 nav {
   display: flex;
   justify-content: center;
-  background-color: #2196F3;
+  background-color: #1b1b1b;
   padding: 20px;
 }
 
@@ -92,7 +87,7 @@ nav div {
 }
 
 main {
-  padding: 20px;
+  padding: 40px 20px 20px; /* Increase the top padding */
   text-align: center;
 }
 
@@ -111,9 +106,9 @@ main button {
 
 section {
   text-align: center;
+  color:#f4f4f4;
   padding: 20px;
-  background-color: #3f51b5; /* Keep the blue background for the second section */
-  color: white;
+  background-color: #1b1b1b; /* Keep the blue background for the second section */
 }
 
 section:nth-of-type(2) h3 {
@@ -121,8 +116,7 @@ section:nth-of-type(2) h3 {
 }
 
 footer {
-  padding: 20px;
-  background-color: #3f51b5; /* Change footer background to #3f51b5 */
+  background-color: #1b1b1b; /* Change footer background to #3f51b5 */
   color: white;
   margin-top: 4px; /* Add a gap between the footer and the previous section */
   display: flex; /* Use flexbox for layout */
@@ -137,12 +131,61 @@ footer {
 }
 
 .footer-text {
-  text-align: center; /* Align text to the left */
+  text-align: center; /* Align text to the center */
+  margin-left: 40px;
+  margin-top: 60px;  
 }
 
 .footer-image img {
-  max-width: 440px; /* Set a larger max width for the image */
-  height: 280px;
-  margin-left: 20px; /* Space between text and image */
-  align-self: flex-end; /* Align image to the bottom */
+  width: 680px; /* Maintain the image's width limit */
+  height: 340px; /* Ensure the aspect ratio is maintained */
+  margin-left: 0px;
+  margin-top: 0px;  /* Space between text and image */
+}
+
+.container {
+  display: flex;
+  align-items: left;
+  justify-content: left; /* Center everything */
+  position: relative; /* Allows absolute positioning inside */
+  background-color: #fff;
+}
+
+.text-container {
+  font-family: 'Montserrat', sans-serif;
+  width: 240; /* Adjust width as needed */
+  height: 240px;
+  background-color: rgb(235, 235, 235); /* Slight transparency */
+  position: absolute; /* Place it over the image */
+  right: 18%; /* Adjust position */
+  margin-top: 80px;
+  z-index: 2; /* Ensure it stays above the image */
+  text-align: center;
+  padding: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Optional shadow effect */
+  border: 10px solid white; /* Add a border around the image */
+}
+
+.image-container {
+  margin-left: 120px;
+  margin-top: 50px;
+  position: left; /* Ensure it responds to positioning */
+  z-index: 1; /* Keep it behind the text */
+  border: 10px solid white; /* Add a border around the image */
+}
+
+.image-container img {
+  width: 620px;
+  height: 360px;
+}
+
+.text-container h1 {
+  margin-top: 80px;
+  font-size: 24px;
+  color: #333;
+}
+
+.text-container h2 {
+  font-size: 28px;
+  color: #000;
 }

@@ -14,7 +14,7 @@ class Notification(models.Model):
         ('Normal', 'Normal'),
     ]
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    recipients = models.ManyToManyField(User, blank=True)  # Allow multiple recipients
     to = models.CharField(max_length=20, choices=TO_CHOICES)
     subject = models.CharField(max_length=255)
     message = models.TextField()
