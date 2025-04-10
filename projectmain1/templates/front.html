@@ -14,8 +14,7 @@
 <body>
     <header>
     <h1>Supplyify</h1>
-
-
+    <button class="login"><a href="login">Login</a></button>
 <div class="col-3 col-md-4 mb-3 mb-md-0">
                 <form method="POST" action="{% url 'Users' %}" id="zone-form">
                     {% csrf_token %}
@@ -31,40 +30,37 @@
 
 <div class="container">
     <div class="image-container">
-        <img src="https://cdn.dnaindia.com/sites/default/files/2018/08/20/720605-kerala-flood-pti.jpg" alt="Image Description" />
+        <img src="{% static 'image/Home.jpg' %}" alt="Image Description">
     </div>
     <div class="text-container">
-        <h1>Provide food and Support for</h1>
-        <h2>Those In Need</h2>
+        <h1>PROVIDE FOOD AND<p>SUPPORT FOR</h1>
+        <h2>THOSE IN NEED</h2>
+    </div>
+    <div class="bg-container">
+        <h1> </h1>
     </div>
 </div>
-
-    <nav>
-        <div>Stay Safe</div>
-        <div>Help in Need</div>
-        <div>Become a Volunteer</div>
-    </nav>
-
-    <main>
-        <h2>Latest Updates</h2>
-        <p>Check the Camps</p>
-        <p>Once posts are published, you'll see them There.</p>
-    </main>
-
-    <section>
-        <p>We believe in the power of compassion and support to make a positive impact on the lives of those affected by natural calamities.<p> Together, we can bring hope and relief to those in need.</p></p>
-    </section>
 
     <footer>
         <div class="footer-content">
             <div class="footer-text">
                 <h1>About Us</h1>
-                <p>Supplify is a disaster relief supply management system designed to ensure the efficient distribution of essential goods to people affected by natural calamities. Our platform prevents the over-supply of unnecessary items and under-supply of critical resources by providing real-time insights into what is needed at each relief camp.
-
-                    With Supplify, suppliers can see the exact quantity of required products in different camps and contribute accordingly. The system streamlines communication between admins, volunteers, and camp heads, ensuring swift action in times of crisis.</p>
-            </div>
+                <p>
+                    Supplify is a disaster relief supply 
+                    management system designed to ensure 
+                    the efficient distribution of essential 
+                    goods to people affected by natural calamities. 
+                    Our platform prevents the over-supply 
+                    of unnecessary items and under-supply of 
+                    critical resources by providing real-time 
+                    insights into what is needed at each relief camp.
+                </p>
+            </div>            
             <div class="footer-image">
-                <img src="https://gdb.voanews.com/dabf7569-6b52-4683-a3fd-a24ecf0d483e_w1023_r1_s.jpg" alt="Footer Image" />
+                <img src="https://as2.ftcdn.net/v2/jpg/02/94/21/35/1000_F_294213591_Kohh5RAIgSzAha2bGPj13pGFCVbNtnf3.jpg" alt="Footer Image" />
+            </div>
+            <div class="footer-container">
+                <h1> </h1>
             </div>
         </div>
     </footer>

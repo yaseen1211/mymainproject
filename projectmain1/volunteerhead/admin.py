@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import CampHead,Volunteer
 
-# Register your models here.
+admin.site.register(CampHead)
+admin.site.register(Volunteer)

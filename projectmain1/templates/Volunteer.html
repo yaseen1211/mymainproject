@@ -52,7 +52,7 @@
     </style>
 </head>
 
-<body style="    margin-top: 95px">
+<body style="margin-top: 95px">
 
     <header>
         <!-- Logo -->
@@ -87,7 +87,7 @@
 
     <script>
         document.getElementById('notification-button').addEventListener('click', function () {
-            window.location.href = "{% url 'notification_detail' %}?type=Admin";
+            window.location.href = "{% url 'notification_detail' %}?type=CampHead";
         });
     </script>
     <nav>
@@ -181,7 +181,7 @@
 
 
 
-
+        
 
 
             <table class="styled-table" id="item-list">
@@ -279,7 +279,7 @@
         }
 
         window.onload = function () {
-            fetchProductUpdates();
+            // fetchProductUpdates();
             displayCampAndVolunteers();
         };
 

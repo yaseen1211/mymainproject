@@ -68,42 +68,6 @@ cursor: pointer;
 font-size: 16px;
 }
 
-
-section h1 {
-  font-size: 36px;
-  margin: 0;
-}
-
-nav {
-  display: flex;
-  justify-content: center;
-  background-color: #1b1b1b;
-  padding: 20px;
-}
-
-nav div {
-  margin: 0 20px;
-  color: white;
-}
-
-main {
-  padding: 40px 20px 20px; /* Increase the top padding */
-  text-align: center;
-}
-
-main h2 {
-  margin: 0;
-}
-
-main button {
-  background-color: #e91e63;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
 section {
   text-align: center;
   color:#f4f4f4;
@@ -116,52 +80,93 @@ section:nth-of-type(2) h3 {
 }
 
 footer {
-  background-color: #1b1b1b; /* Change footer background to #3f51b5 */
-  color: white;
+  background-color: #ffffff; /* Change footer background to #3f51b5 */
+  color: rgb(0, 0, 0);
   margin-top: 4px; /* Add a gap between the footer and the previous section */
   display: flex; /* Use flexbox for layout */
   justify-content: space-between; /* Space between text and image */
   align-items: center; /* Center items vertically */
+  z-index: 0;
 }
 
 .footer-content {
   display: flex; /* Flexbox for footer content */
   width: 100%; /* Full width */
-  justify-content: space-between; /* Space between text and image */
 }
 
 .footer-text {
-  text-align: center; /* Align text to the center */
-  margin-left: 40px;
-  margin-top: 60px;  
+  text-align: left; /* Align text to the left */
+  margin-left: 120px;
+  margin-top: 80px;
+  font-family: 'Poppins', sans-serif; /* Use a modern, clean font */
+  line-height: 1.3; /* Small space between lines */
+  z-index: 2; /* Above container, but below image */
+}
+
+.footer-text h1 {
+  color: black; /* Make H1 text black */
+}
+
+.footer-text p {
+  color: rgb(59, 59, 59); /* grey */
+  max-width: 400px; /* Limit width to keep words short per line */
+  word-wrap: break-word; /* Ensure words wrap properly */
+  white-space: pre-line; /* Breaks lines at natural spaces */
 }
 
 .footer-image img {
-  width: 680px; /* Maintain the image's width limit */
-  height: 340px; /* Ensure the aspect ratio is maintained */
-  margin-left: 0px;
-  margin-top: 0px;  /* Space between text and image */
+  margin-right: 120px;
+  margin-top: 50px;
+  position: relative; /* Ensure it stacks properly */
+  z-index: 2; /* Ensures it's above the background */
+  border: 10px solid white; /* Add a border around the image */
+  width: 660px;
+  height: 360px;
+}
+
+.footer-container {
+  width: 1000px;
+  height: 490px;
+  background-color: rgb(147, 197, 162);
+  position: absolute;
+  left: 20px;
+  margin-top: 0px;
+  z-index: 1; 
+  padding: 20px;
 }
 
 .container {
   display: flex;
   align-items: left;
-  justify-content: left; /* Center everything */
-  position: relative; /* Allows absolute positioning inside */
-  background-color: #fff;
+  height: 580px;
+  justify-content: left;
+  position: relative;
+  background-color: #cbdbc5;
+  z-index: 0; /* Default layer */
+}
+
+.bg-container {
+  width: 600px;
+  height: 540px;
+  background-color: white;
+  position: absolute;
+  left: 20px;
+  margin-top: 0px;
+  z-index: 1; /* Above container, but below image */
+  padding: 20px;
 }
 
 .text-container {
-  font-family: 'Montserrat', sans-serif;
-  width: 240; /* Adjust width as needed */
-  height: 240px;
-  background-color: rgb(235, 235, 235); /* Slight transparency */
+  font-family: 'Bahnschrift', sans-serif;
+  width: 1040; /* Adjust width as needed */
+  height: 140px;
+  background-color: #e8e6e6;
   position: absolute; /* Place it over the image */
-  right: 18%; /* Adjust position */
-  margin-top: 80px;
+  right: 295px; /* Adjust position */
+  margin-top: 100px;
   z-index: 2; /* Ensure it stays above the image */
-  text-align: center;
-  padding: 20px;
+  text-align: left;
+  padding: 80px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Optional shadow effect */
   border: 10px solid white; /* Add a border around the image */
 }
@@ -169,23 +174,24 @@ footer {
 .image-container {
   margin-left: 120px;
   margin-top: 50px;
-  position: left; /* Ensure it responds to positioning */
-  z-index: 1; /* Keep it behind the text */
+  position: relative; /* Ensure it stacks properly */
+  z-index: 2; /* Ensures it's above the background */
   border: 10px solid white; /* Add a border around the image */
 }
 
 .image-container img {
   width: 620px;
-  height: 360px;
+  height: 420px;
 }
 
 .text-container h1 {
-  margin-top: 80px;
-  font-size: 24px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  font-size: 28px;
   color: #333;
 }
 
 .text-container h2 {
   font-size: 28px;
-  color: #000;
+  color: #000;
 }

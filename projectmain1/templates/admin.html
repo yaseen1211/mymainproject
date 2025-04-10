@@ -81,9 +81,9 @@
                 <input type="email" id="volunteer-head Email" placeholder="volunteer-head Email"
                     name="volunteer-head Email" required>
 
-                <label for="volunteer-head phone">volunteer-head phone</label>
-                <input type="number" id="volunteer-head phone" placeholder="volunteer-head phone"
-                    name="volunteer-head phone" required minlength="8">
+                    <label for="volunteer-head-phone">Volunteer Head Phone</label>
+                    <input type="tel" id="volunteer-head phone" name="volunteer-head phone" placeholder="Enter phone number"
+                        required pattern="^\d{8,15}$" title="Phone number must be between 8 to 15 digits.">
 
                 <button style="background-color: #4a6267;" onclick="Add_volunteer_head()">Register Admin</button>
             </div>
@@ -129,7 +129,7 @@
                 <input type="text" id="zone-description" placeholder="zone description" name="zone-description"
                     required>
 
-                <label for="volunteer-select">Select volunteer</label>
+                <label for="volunteer-select">Select volunteerHead</label>
                 <select id="volunteer-head3" required>
                     <option value="">Select a volunteerHead</option>
                 </select>
