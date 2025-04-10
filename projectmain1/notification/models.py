@@ -14,10 +14,10 @@ class Notification(models.Model):
         ('Normal', 'Normal'),
     ]
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    to = models.CharField(max_length=20, choices=TO_CHOICES)
+    to = models.CharField(max_length=20, choices=TO_CHOICES,null=True, blank=True)
+    from1 = models.CharField(max_length=20, choices=TO_CHOICES,null=True, blank=True)
     subject = models.CharField(max_length=255)
-    message = models.TextField()
+    message = models.TextField()    
     priority = models.CharField(max_length=10, choices=PRIORITY_CHOICES)
     publish_date = models.DateTimeField(auto_now_add=True)
     close_notification = models.BooleanField(default=False)

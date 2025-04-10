@@ -23,14 +23,13 @@ def Volunteer(request):
     
     
     camp3 = Camp.objects.get(id=camp_id)
+    print("3")
     
 
-    
 
-        
-    print("4")
     if request.method == "POST" and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        print("5")
+        print("4")
+
         data = json.loads(request.body)
         mode = data.get('mode')
         print(data)
@@ -57,7 +56,7 @@ def Volunteer(request):
 
 
         elif mode == "2": #add a new product
-                print("2")
+
         
                 product_Name = data.get('item-name')
                 product_Category_id = data.get('item-category')
@@ -98,7 +97,7 @@ def Volunteer(request):
 
             data = json.loads(request.body)
             product_id = data.get('product_id')
-            print("9")
+
             ins =product.objects.get(pk=product_id)
             ins.delete()
             return JsonResponse({'message': 'Item deleted successfully'}, status=200)
@@ -109,7 +108,7 @@ def Volunteer(request):
 
                 
             Volunteers2 = list(volunteers1.values('id', 'name', 'email', 'phone'))
-            print(Volunteers2)
+
             return JsonResponse({
                     'Volunteers2': Volunteers2,
                         })

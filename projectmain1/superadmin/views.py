@@ -144,8 +144,8 @@ def superadmin(request):
 
 
 def register_volunteer(request):
-    if not request.user.is_superuser:
-        return render(request, 'login.html', {'error': 'you are not Access'})
+    # if not request.user.is_superuser:
+    #     return render(request, 'login.html', {'error': 'you are not Access'})
     token = request.GET.get('token')  # Get token from the URL query parameter
     
     if token:

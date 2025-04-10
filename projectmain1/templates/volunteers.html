@@ -1,92 +1,38 @@
+{% load static %}
 <html>
     <head>
-        <style>/* General styles */
-            body {
-                font-family: Arial, sans-serif;
-                margin: 0;
-                padding: 0;
-            }
-            
-            /* Header styles */
-            header {
-                background-color: #f8f9fa;
-                padding: 20px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                border-bottom: 2px solid #007bff;
-            }
-            
-            header h1 {
-                margin: 0;
-                font-size: 24px;
-                color: #343a40;
-            }
-            
-            /* Right-side header styles */
-            .header-right {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-            }
-            
-            /* Button styles */
-            .notification-button,
-            .logout-button {
-                background-color: #007bff;
-                color: white;
-                padding: 8px 12px;
-                border-radius: 5px;
-                font-size: 16px;
-                text-decoration: none;
-                text-align: center;
-                transition: background-color 0.3s;
-            }
-            
-            .logout-button {
-                background-color: #f44336;
-            }
-            
-            .notification-button:hover {
-                background-color: #0056b3;
-            }
-            
-            .logout-button:hover {
-                background-color: #c9302c;
-            }
-            
-            /* Error message styles */
-            .error-message {
-                margin: 20px;
-                padding: 15px;
-                border: 1px solid #f44336;
-                border-radius: 5px;
-                background-color: #ffebee;
-                color: #c9302c;
-                font-size: 14px;
-            }
-            </style>
+        <link rel="stylesheet" href="{% static 'css/admin.css' %}">
     </head>
     <body>
         <header>
-            <h1>Wolcome to {{ camp_name }} camp</h1>
-            <div class="header-right">
-                <a href="{% url 'notification_detail' %}?type=superadmin" 
-                style="background-color: #007bff; 
-                       color: white; 
-                       padding: 6px 10px; 
-                       width: 150px; 
-                       border-radius: 6px; 
-                       font-size: 18px; 
-                       text-decoration: none; 
-                       display: inline-block; 
-                       text-align: center;">
-                 💬
-             </a>
-                <a href="{% url 'logout' %}" class="logout-button">Logout</a>
+            <!-- Logo -->
+            <div>
+                <span>✨ Wolcome to {{ camp_name }} camp</span>
+            </div>
+    
+            <!-- Navigation -->
+    
+            <!-- Notification Button -->
+            <div class="notification-wrapper">
+                <button id="notification-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+                        <path d="M16 2C8.28 2 2 7.8 2 14.93a12.144 12.144 0 001.696 6.15l-1.668 7.51A1.16 1.16 0 003.63 29.9l6.914-3.072A14.835 14.835 0 0016 27.861c7.72 0 14-5.8 14-12.93S23.72 2 16 2zm4.508 16.32h-9.016a1.16 1.16 0 010-2.32h9.016a1.16 1.16 0 010 2.32zm0-4.638h-9.016a1.16 1.16 0 010-2.318h9.016a1.16 1.16 0 110 2.318z" fill="currentColor"></path>
+                    </svg>
+                </button>
+            </div>
+    
+            <!-- User & Logout -->
+            <div class="user-section">
+                <a href="#">Log In</a>
+                <div class="user-icon">👤</div>
+                <a href="{% url 'logout' %}" style="color: white;" class="logout-button">Logout</a>
             </div>
         </header>
-        
+        <script>
+            document.getElementById('notification-button').addEventListener('click', function () {
+                window.location.href = "{% url 'notification_detail' %}?type=Volunteer";
+            });
+        </script>
         <div id="error-container" class="error-message" role="alert">
             {% if error %}
             <p>{{ error }}</p>

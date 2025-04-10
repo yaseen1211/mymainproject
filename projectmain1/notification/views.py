@@ -12,14 +12,29 @@ def view_notifications(request):
     # Fetch notifications that are not closed
     notifications = Notification.objects.filter(close_notification=False).order_by('-publish_date')
 
+
     return render(request, 'view_notifications.html', {'notifications': notifications})
 
 @login_required
 def publish_notification(request):
+    user = request.user
+    role = "Unknown"
+
+    if hasattr(user, 'volunteerhead'):
+            role = "VolunteerHead"
+    elif hasattr(user, 'camp_head'):
+            role = "CampHead"
+    elif hasattr(user, 'volunteer'):
+            role="Volunteer"
+    else:
+         role = "Admin"
+
     if request.method == "POST":
         form = NotificationForm(request.POST)
         if form.is_valid():
-            form.save()
+            notification = form.save(commit=False)  # Don't save yet
+            notification.from1 = role  # Assign the role to from1
+            notification.save()  # Now save the object
             return redirect("publish_notification")
     else:
         form = NotificationForm()
@@ -32,38 +47,66 @@ def publish_notification(request):
 @login_required
 def notification_detail(request, notification_id=None):
     user = request.user
+    role = "Unknown"
 
-    # Get role from query parameter (if exists) or determine based on logged-in user
-    role = request.GET.get("type")  # Get role from URL query parameter
-
-    if not role:  # If no type is provided in the URL, use the user's role
-        if user.is_superuser:
-            role = "Admin"
-        elif user.groups.filter(name="VolunteerHead").exists():
+    if hasattr(user, 'volunteerhead'):
             role = "VolunteerHead"
-        elif user.groups.filter(name="CampHead").exists():
+    elif hasattr(user, 'camp_head'):
             role = "CampHead"
-        else:
-            role = "Volunteer"
+    elif hasattr(user, 'volunteer'):
+            role="Volunteer"
+    else:
+         role = "Admin"
+    print(role)     
+
+
+
 
     if notification_id:
         # Fetch and show details of a specific notification
         notification = get_object_or_404(Notification, id=notification_id)
 
         # Ensure the user is only accessing their allowed notifications
-        if notification.to != role:
-            messages.error(request, "You are not authorized to view this notification.")
-            return redirect("notification_detail")
 
-        return render(request, "notification_detail.html", {"notification": notification})
+        return render(request, "notification_detail.html", {"notification": notification,"role":role})
     else:
         # Show only notifications meant for the selected role
         notifications = Notification.objects.filter(to=role)
         return render(request, "notification_detail.html", {"notifications": notifications, "role": role})
 
+@login_required
+def Dashboard(request):
+    user = request.user
+
+    if hasattr(user, 'volunteerhead'):
+        return redirect('Camp__head')
+    elif hasattr(user, 'camp_head'):
+        print("camphead123")
+        return redirect('Volunteer')
+
+    elif hasattr(user, 'volunteer'):
+        print("volunter123")
+        return redirect('volunteer1')
+
+    else:
+        return redirect('superadmin')
 
 @login_required
 def close_notification(request):
+    user = request.user
+    role = "Unknown"
+
+
+    if hasattr(user, 'volunteerhead'):
+            role = "VolunteerHead"
+    elif hasattr(user, 'camp_head'):
+            role = "CampHead"
+    elif hasattr(user, 'volunteer'):
+            role="Volunteer"
+    else:
+         role = "Admin"
+                 
+      
     if request.method == "POST":
         notification_id = request.POST.get('notification_id')
         if notification_id:
@@ -77,7 +120,7 @@ def close_notification(request):
                 messages.error(request, "Notification does not exist.")
     
     # Fetch all notifications again to display the updated status
-    notifications = Notification.objects.order_by('-publish_date')
+    notifications = Notification.objects.filter(from1=role).order_by('-publish_date')
     return render(request, 'close_notification.html', {'notifications': notifications})
 
 @login_required
