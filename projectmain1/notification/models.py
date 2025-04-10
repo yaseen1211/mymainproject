@@ -13,7 +13,8 @@ class Notification(models.Model):
         ('High', 'High'),
         ('Normal', 'Normal'),
     ]
-
+    
+    
     to = models.CharField(max_length=20, choices=TO_CHOICES,null=True, blank=True)
     from1 = models.CharField(max_length=20, choices=TO_CHOICES,null=True, blank=True)
     subject = models.CharField(max_length=255)
